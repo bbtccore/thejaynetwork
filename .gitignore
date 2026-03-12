@@ -1,0 +1,17 @@
+vue/node_modules
+vue/dist
+release/
+build/
+.idea/
+.vscode/
+.DS_Store
+*.dot
+*.log
+*.ign
+*.swp
+*.swo
+*~
+coverage.txt
+coverage.html
+.testnets/
+
