@@ -1,0 +1,31 @@
+[Unit]
+Description=Jay Network Node (jaynd) via Cosmovisor
+Documentation=https://pribit.org
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=jaynet
+Group=jaynet
+ExecStart=/home/jaynet/go/bin/cosmovisor run start --home /home/jaynet/.jayn
+Restart=always
+RestartSec=3
+LimitNOFILE=65536
+LimitNPROC=65536
+
+# Cosmovisor environment
+Environment="DAEMON_NAME=jaynd"
+Environment="DAEMON_HOME=/home/jaynet/.jayn"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=true"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+Environment="DAEMON_LOG_BUFFER_SIZE=512"
+Environment="UNSAFE_SKIP_BACKUP=false"
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=jaynd
+
+[Install]
+WantedBy=multi-user.target
+
