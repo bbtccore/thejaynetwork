@@ -331,8 +331,7 @@
     background: #fff; border-radius: 14px; padding: 1.5rem;
     text-align: center; display: flex; flex-direction: column; align-items: center;
   }
-  #qr-code { width: 200px; height: 200px; }
-  #qr-code canvas, #qr-code img { width: 200px !important; height: 200px !important; }
+  #qr-code { width: 200px; height: 200px; display: block; }
   .qr-label {
     color: #333; font-size: 0.8rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem;
   }
@@ -424,7 +423,7 @@
 <section class="hero">
   <div class="hero-content">
     <img src="chain-registry/thejaynetwork/logo.png" alt="The Jay Network" class="hero-logo">
-    <div class="hero-badge">Mainnet Live</div>
+    
     <h1>The <span>Jay Network</span></h1>
     <p>A sovereign, high-performance Layer-1 blockchain built on Cosmos SDK v0.53 and CometBFT consensus — designed for security, scalability, and interoperability.</p>
     <div class="hero-actions">
@@ -509,19 +508,19 @@
     <div class="arch-node">
       <p class="node-role">Validator</p>
       <p class="node-name">jay-node1</p>
-      <p class="node-ip">34.69.40.9</p>
+      <p class="node-ip">Protected</p>
       <p class="node-status">Producing Blocks</p>
     </div>
     <div class="arch-node">
       <p class="node-role">Validator</p>
       <p class="node-name">jay-node2</p>
-      <p class="node-ip">35.222.85.162</p>
+      <p class="node-ip">Protected</p>
       <p class="node-status">Producing Blocks</p>
     </div>
     <div class="arch-node">
       <p class="node-role">Validator</p>
       <p class="node-name">jay-node3</p>
-      <p class="node-ip">34.41.163.143</p>
+      <p class="node-ip">Protected</p>
       <p class="node-status">Producing Blocks</p>
     </div>
     <div class="arch-node">
@@ -538,11 +537,7 @@
     </div>
   </div>
   <div class="arch-signer">
-    <div class="card">
-      <div class="card-icon">🔑</div>
-      <h3>TMKMS Signer</h3>
-      <p>Dedicated key management node running Tendermint KMS for remote validator signing via internal network.</p>
-    </div>
+  
   </div>
 </div>
 
@@ -677,7 +672,7 @@
     <p>Scan this QR code with Leap mobile app's DApp browser to auto-add The Jay Network:</p>
     <div class="qr-container">
       <div class="qr-card">
-        <div id="qr-code"></div>
+        <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=https%3A%2F%2Fbbtccore.github.io%2Fthejaynetwork%2Fadd-chain.html" alt="QR Code" width="200" height="200" style="border-radius:8px">
         <p class="qr-label">Scan with Leap &rarr; DApp Browser</p>
         <a href="https://bbtccore.github.io/thejaynetwork/add-chain.html" target="_blank" class="qr-link">or open link directly &rarr;</a>
       </div>
@@ -750,20 +745,7 @@
   <p>&copy; 2026 The Jay Network. Built with Cosmos SDK &amp; CometBFT.</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script>
-// Generate QR code
-window.addEventListener('DOMContentLoaded', () => {
-  const qrEl = document.getElementById('qr-code');
-  if (qrEl && typeof QRCode !== 'undefined') {
-    QRCode.toCanvas(document.createElement('canvas'),
-      'https://bbtccore.github.io/thejaynetwork/add-chain.html',
-      { width: 200, margin: 1, color: { dark: '#0a0e1a', light: '#ffffff' } },
-      (err, canvas) => { if (!err) qrEl.appendChild(canvas); }
-    );
-  }
-});
-
 async function updateBlock() {
   try {
     const res = await fetch('http://34.67.101.201:26657/status');
