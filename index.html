@@ -20,13 +20,11 @@
     --text-muted: #64748b;
     --border: #1e293b;
     --success: #10b981;
-    --warning: #f59e0b;
     --gradient-1: linear-gradient(135deg, #3a7bd5 0%, #6c5ce7 100%);
-    --gradient-2: linear-gradient(135deg, #0a0e1a 0%, #1a2035 50%, #0a0e1a 100%);
+    --section-gap: 1.5rem;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -37,617 +35,369 @@
     overflow-x: hidden;
   }
 
-  /* === NAVIGATION === */
+  /* ========== NAVIGATION ========== */
   nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    background: rgba(10, 14, 26, 0.85);
-    backdrop-filter: blur(20px);
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(10, 14, 26, 0.88);
+    backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
-    transition: all 0.3s ease;
   }
-
   .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
+    max-width: 1120px; margin: 0 auto; padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 64px;
   }
-
   .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--text-primary);
+    font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
   }
-
-  .nav-brand img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
+  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; }
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
   .nav-links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.2s;
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500; transition: color 0.2s;
   }
-
   .nav-links a:hover { color: var(--accent-light); }
-
   .nav-cta {
-    background: var(--gradient-1);
-    color: #fff !important;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-weight: 600;
+    background: var(--gradient-1); color: #fff !important;
+    padding: 7px 18px; border-radius: 8px; font-weight: 600;
     transition: transform 0.2s, box-shadow 0.2s;
   }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
 
-  .nav-cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px var(--accent-glow);
-  }
-
-  /* === HERO === */
+  /* ========== HERO ========== */
   .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    padding: 120px 2rem 80px;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; position: relative; overflow: hidden;
+    padding: 100px 2rem 80px;
   }
-
   .hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at 30% 50%, rgba(58, 123, 213, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 50%, rgba(108, 92, 231, 0.06) 0%, transparent 50%);
+    content: ''; position: absolute; inset: -50%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(58,123,213,0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(108,92,231,0.05) 0%, transparent 50%);
     animation: drift 20s ease-in-out infinite;
   }
-
   @keyframes drift {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33% { transform: translate(2%, -1%) rotate(1deg); }
-    66% { transform: translate(-1%, 1%) rotate(-1deg); }
+    0%,100%{transform:translate(0,0) rotate(0deg)}
+    33%{transform:translate(2%,-1%) rotate(1deg)}
+    66%{transform:translate(-1%,1%) rotate(-1deg)}
   }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-  }
-
+  .hero-content { position: relative; z-index: 1; max-width: 720px; }
   .hero-logo {
-    width: 120px;
-    height: 120px;
-    border-radius: 28px;
-    margin-bottom: 2rem;
-    box-shadow: 0 0 60px var(--accent-glow), 0 20px 60px rgba(0,0,0,0.5);
+    width: 110px; height: 110px; border-radius: 26px; margin-bottom: 1.75rem;
+    box-shadow: 0 0 50px var(--accent-glow), 0 16px 48px rgba(0,0,0,0.5);
     animation: float 6s ease-in-out infinite;
   }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
-  }
-
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: var(--success);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+    color: var(--success); padding: 5px 14px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 1.25rem;
   }
-
   .hero-badge::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: var(--success);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    content:''; width:7px; height:7px; background:var(--success);
+    border-radius:50%; animation: pulse 2s ease-in-out infinite;
   }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
   .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
+    font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.25rem;
     background: linear-gradient(135deg, #f0f4ff 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-
   .hero h1 span {
     background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-
-  .hero p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 2.5rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
+  .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto 2rem; }
+  .hero-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    border: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px; font-size: 0.95rem;
+    font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
   }
-
   .btn-primary {
-    background: var(--gradient-1);
-    color: #fff;
-    box-shadow: 0 4px 20px var(--accent-glow);
+    background: var(--gradient-1); color: #fff;
+    box-shadow: 0 4px 16px var(--accent-glow);
   }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+  .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--accent); }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--accent-glow);
-  }
-
-  .btn-secondary {
-    background: var(--bg-card);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-  }
-
-  .btn-secondary:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--accent);
-  }
-
-  /* === STATS BAR === */
+  /* ========== STATS BAR ========== */
   .stats-bar {
     background: var(--bg-secondary);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 2rem 0;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 1.75rem 0;
   }
-
   .stats-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    text-align: center;
+    max-width: 1120px; margin: 0 auto; padding: 0 2rem;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; text-align: center;
   }
-
   .stat-item h3 {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 1.75rem; font-weight: 800;
     background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-
   .stat-item p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-top: 4px;
+    color: var(--text-muted); font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px;
   }
 
-  /* === SECTIONS === */
-  section {
-    padding: 100px 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  /* ========== COMMON SECTION ========== */
+  .section-wrap {
+    max-width: 1120px; margin: 0 auto;
+    padding: 80px 2rem;
   }
-
   .section-label {
-    color: var(--accent);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 0.75rem;
+    color: var(--accent); font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem;
   }
-
   .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+    letter-spacing: -0.02em; margin-bottom: 0.75rem;
   }
-
   .section-desc {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    max-width: 640px;
-    margin-bottom: 3rem;
+    color: var(--text-secondary); font-size: 1rem; max-width: 580px; margin-bottom: 2.5rem;
   }
 
-  /* === CARDS === */
+  /* ========== TECH CARDS (3 x 2) ========== */
   .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: var(--section-gap);
   }
-
   .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.75rem;
+    display: flex; flex-direction: column;
+    transition: all 0.25s ease;
   }
-
-  .card:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  }
-
+  .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.3); }
   .card-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(58, 123, 213, 0.1);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1.25rem;
+    width: 44px; height: 44px; background: rgba(58,123,213,0.1);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem; margin-bottom: 1rem;
   }
+  .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; flex: 1; }
 
-  .card h3 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-
-  .card p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-  }
-
-  /* === ARCHITECTURE === */
+  /* ========== ARCHITECTURE (5 cols) ========== */
   .arch-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: var(--section-gap);
   }
-
   .arch-node {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    transition: all 0.3s ease;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem; text-align: center;
+    transition: all 0.25s ease;
   }
-
-  .arch-node:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 20px var(--accent-glow);
-  }
-
+  .arch-node:hover { border-color: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
   .arch-node .node-role {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.4rem;
   }
-
-  .arch-node .node-name {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-
+  .arch-node .node-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem; }
   .arch-node .node-ip {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-family: 'SF Mono','Fira Code',monospace; font-size: 0.75rem; color: var(--text-muted);
   }
-
   .arch-node .node-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 0.75rem;
-    font-size: 0.75rem;
-    color: var(--success);
-    font-weight: 600;
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 0.6rem;
+    font-size: 0.7rem; color: var(--success); font-weight: 600;
   }
-
   .arch-node .node-status::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--success);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    content:''; width:5px; height:5px; background:var(--success);
+    border-radius:50%; animation: pulse 2s ease-in-out infinite;
+  }
+  .arch-signer {
+    margin-top: var(--section-gap);
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--section-gap);
+  }
+  .arch-signer .card {
+    grid-column: 3; /* center in 5-col grid */
   }
 
-  /* === TOKENOMICS === */
+  /* ========== TOKENOMICS (2 cols, equal height) ========== */
   .token-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--section-gap);
+    align-items: start;
   }
-
   .token-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
   }
-
   .token-table th {
-    background: rgba(58, 123, 213, 0.08);
-    padding: 12px 20px;
-    text-align: left;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
+    background: rgba(58,123,213,0.08); padding: 10px 18px; text-align: left;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted);
   }
-
   .token-table td {
-    padding: 14px 20px;
-    border-top: 1px solid var(--border);
-    font-size: 0.95rem;
+    padding: 11px 18px; border-top: 1px solid var(--border); font-size: 0.9rem;
   }
-
+  .token-table td:first-child { color: var(--text-secondary); }
   .token-table td:last-child {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    color: var(--accent-light);
+    font-family: 'SF Mono','Fira Code',monospace; color: var(--accent-light); text-align: right;
   }
 
-  /* === CODE BLOCK === */
+  /* ========== ENDPOINTS (2-col grouped) ========== */
+  .endpoint-section-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--section-gap);
+  }
+  .endpoint-group {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .endpoint-group-header {
+    padding: 10px 18px;
+    background: rgba(58,123,213,0.06); border-bottom: 1px solid var(--border);
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--accent);
+  }
+  .endpoint-item {
+    padding: 12px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border);
+  }
+  .endpoint-item:first-of-type { border-top: none; }
+  .endpoint-item-label {
+    font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); min-width: 70px;
+  }
+  .endpoint-item-url {
+    font-family: 'SF Mono','Fira Code',monospace; font-size: 0.8rem;
+    color: var(--text-primary); flex: 1; text-align: right;
+  }
+
+  /* ========== CONNECT ========== */
+  .connect-method {
+    margin-bottom: 2.5rem;
+  }
+  .connect-method h3 {
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .connect-method > p {
+    color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;
+  }
   .code-block {
-    background: #0d1117;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin: 1.5rem 0;
+    background: #0d1117; border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
   }
-
   .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    background: rgba(255,255,255,0.03);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: rgba(255,255,255,0.03);
     border-bottom: 1px solid var(--border);
   }
-
-  .code-header span {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    font-weight: 600;
-  }
-
+  .code-header span { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
   .code-copy {
-    background: var(--bg-card);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
+    background: var(--bg-card); color: var(--text-secondary);
+    border: 1px solid var(--border); padding: 3px 10px; border-radius: 5px;
+    font-size: 0.7rem; cursor: pointer; transition: all 0.2s;
   }
-
-  .code-copy:hover {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
+  .code-copy:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
   .code-block pre {
-    padding: 20px;
-    overflow-x: auto;
-    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 0.85rem;
-    line-height: 1.8;
-    color: #c9d1d9;
+    padding: 16px; overflow-x: auto;
+    font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
+    font-size: 0.8rem; line-height: 1.75; color: #c9d1d9;
   }
-
-  /* === ENDPOINT TABLE === */
-  .endpoint-grid {
-    display: grid;
-    gap: 0.75rem;
+  .step-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: var(--section-gap); margin-top: 1rem;
   }
-
-  .endpoint-row {
-    display: grid;
-    grid-template-columns: 120px 1fr auto;
-    align-items: center;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 20px;
-    gap: 1rem;
-    transition: border-color 0.2s;
-  }
-
-  .endpoint-row:hover { border-color: var(--accent); }
-
-  .endpoint-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--accent);
-  }
-
-  .endpoint-url {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    word-break: break-all;
-  }
-
-  .endpoint-status {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--success);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .endpoint-status::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--success);
-  }
-
-  /* === CONNECT SECTION === */
-  .connect-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
   .step-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-    position: relative;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.75rem 1.5rem; position: relative;
   }
-
   .step-num {
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: var(--gradient-1);
-    color: #fff;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.85rem;
+    position: absolute; top: -10px; left: 18px;
+    background: var(--gradient-1); color: #fff;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.75rem;
+  }
+  .step-card h4 {
+    margin-top: 0.3rem; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 700;
+  }
+  .step-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.65; }
+  .step-card strong { color: var(--text-primary); }
+
+  /* ========== QR CODE ========== */
+  .qr-container {
+    display: grid; grid-template-columns: auto 1fr; gap: 2rem;
+    align-items: start; margin-top: 1rem;
+  }
+  .qr-card {
+    background: #fff; border-radius: 14px; padding: 1.5rem;
+    text-align: center; display: flex; flex-direction: column; align-items: center;
+  }
+  #qr-code { width: 200px; height: 200px; }
+  #qr-code canvas, #qr-code img { width: 200px !important; height: 200px !important; }
+  .qr-label {
+    color: #333; font-size: 0.8rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem;
+  }
+  .qr-link {
+    color: var(--accent); font-size: 0.75rem; text-decoration: none;
+  }
+  .qr-link:hover { text-decoration: underline; }
+  .qr-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .qr-step {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem;
+  }
+  .qr-step-num {
+    flex-shrink: 0; width: 28px; height: 28px;
+    background: var(--gradient-1); color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.75rem; margin-top: 2px;
+  }
+  .qr-step strong { display: block; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .qr-step p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; line-height: 1.5; }
+  @media (max-width: 640px) {
+    .qr-container { grid-template-columns: 1fr; justify-items: center; }
   }
 
-  .step-card h3 {
-    margin-top: 0.5rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.05rem;
-  }
-
-  .step-card p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-
-  /* === FOOTER === */
+  /* ========== FOOTER ========== */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 3rem 2rem;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    border-top: 1px solid var(--border); padding: 2.5rem 2rem;
+    text-align: center; color: var(--text-muted); font-size: 0.8rem;
   }
-
-  footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
+  footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-
   .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 2rem;
+    margin-bottom: 1rem; flex-wrap: wrap;
   }
 
-  /* === RESPONSIVE === */
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-grid { grid-template-columns: repeat(3, 1fr); }
+    .arch-signer { grid-template-columns: repeat(3, 1fr); }
+    .arch-signer .card { grid-column: 2; }
+  }
   @media (max-width: 768px) {
     .nav-links { display: none; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .card-grid { grid-template-columns: 1fr; }
+    .arch-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-signer { grid-template-columns: 1fr; }
+    .arch-signer .card { grid-column: auto; }
     .token-info { grid-template-columns: 1fr; }
-    .endpoint-row { grid-template-columns: 1fr; gap: 0.5rem; }
-    section { padding: 60px 1.25rem; }
+    .endpoint-section-grid { grid-template-columns: 1fr; }
+    .step-grid { grid-template-columns: 1fr; }
+    .section-wrap { padding: 50px 1.25rem; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-grid { grid-template-columns: 1fr; }
   }
 
-  /* === SCROLLBAR === */
-  ::-webkit-scrollbar { width: 8px; }
+  /* ========== SCROLLBAR ========== */
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg-primary); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 </style>
 </head>
@@ -679,11 +429,11 @@
     <p>A sovereign, high-performance Layer-1 blockchain built on Cosmos SDK v0.53 and CometBFT consensus — designed for security, scalability, and interoperability.</p>
     <div class="hero-actions">
       <a href="#connect" class="btn btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
         Connect Wallet
       </a>
       <a href="https://github.com/bbtccore/thejaynetwork" target="_blank" class="btn btn-secondary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
       </a>
     </div>
@@ -710,14 +460,14 @@
       <p>Cosmos SDK</p>
     </div>
     <div class="stat-item">
-      <h3 id="live-block">—</h3>
+      <h3 id="live-block">&mdash;</h3>
       <p>Latest Block</p>
     </div>
   </div>
 </div>
 
 <!-- Technology -->
-<section id="technology">
+<div id="technology" class="section-wrap">
   <p class="section-label">Technology Stack</p>
   <h2 class="section-title">Built on battle-tested infrastructure</h2>
   <p class="section-desc">The Jay Network leverages the most proven blockchain infrastructure in the Cosmos ecosystem, combining performance with enterprise-grade security.</p>
@@ -725,7 +475,7 @@
     <div class="card">
       <div class="card-icon">⚛️</div>
       <h3>Cosmos SDK v0.53.6</h3>
-      <p>The latest stable Cosmos SDK with advanced module architecture, providing out-of-the-box support for staking, governance, IBC transfers, and custom module development.</p>
+      <p>The latest stable Cosmos SDK with advanced module architecture, providing support for staking, governance, IBC transfers, and custom module development.</p>
     </div>
     <div class="card">
       <div class="card-icon">🔗</div>
@@ -735,17 +485,12 @@
     <div class="card">
       <div class="card-icon">🌐</div>
       <h3>IBC v10.4.0</h3>
-      <p>Inter-Blockchain Communication protocol enabling trustless cross-chain token transfers and data exchange with any IBC-compatible chain in the Cosmos ecosystem.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🔐</div>
-      <h3>TMKMS Remote Signing</h3>
-      <p>Validator private keys are isolated on a dedicated signer node using Tendermint Key Management System, preventing key exposure even if a validator is compromised.</p>
+      <p>Inter-Blockchain Communication protocol enabling trustless cross-chain token transfers and data exchange with any IBC-compatible chain.</p>
     </div>
     <div class="card">
       <div class="card-icon">🛡️</div>
       <h3>Defense-in-Depth Security</h3>
-      <p>Multi-layer security: UFW firewall, Fail2ban intrusion detection, SSH hardening, automatic security updates, kernel tuning, and strict file permissions on every node.</p>
+      <p>Multi-layer security: UFW firewall, Fail2ban intrusion detection, SSH hardening, automatic security updates, kernel tuning, and strict file permissions.</p>
     </div>
     <div class="card">
       <div class="card-icon">📊</div>
@@ -753,10 +498,10 @@
       <p>Real-time monitoring and alerting with Prometheus metrics collection and Grafana dashboards for block production, peer connections, and system health.</p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Architecture -->
-<section id="architecture">
+<div id="architecture" class="section-wrap" style="border-top: 1px solid var(--border);">
   <p class="section-label">Network Architecture</p>
   <h2 class="section-title">Multi-node mainnet topology</h2>
   <p class="section-desc">Five specialized nodes deployed on Google Cloud Platform with role-based separation for maximum security and reliability.</p>
@@ -792,108 +537,106 @@
       <p class="node-status">Serving API</p>
     </div>
   </div>
-  <div style="text-align: center; margin-top: 2rem;">
-    <div class="card" style="display: inline-block; max-width: 300px;">
+  <div class="arch-signer">
+    <div class="card">
       <div class="card-icon">🔑</div>
       <h3>TMKMS Signer</h3>
-      <p>Dedicated key management node (node5) running Tendermint KMS for remote validator signing via internal network.</p>
+      <p>Dedicated key management node running Tendermint KMS for remote validator signing via internal network.</p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Tokenomics -->
-<section id="tokenomics">
+<div id="tokenomics" class="section-wrap" style="border-top: 1px solid var(--border);">
   <p class="section-label">Tokenomics</p>
   <h2 class="section-title">JAY Token</h2>
   <p class="section-desc">The native staking, governance, and transaction fee token powering The Jay Network.</p>
   <div class="token-info">
-    <div>
-      <table class="token-table">
-        <tr><th>Property</th><th>Value</th></tr>
-        <tr><td>Token Name</td><td>Jay Token (JAY)</td></tr>
-        <tr><td>Base Denomination</td><td>ujay</td></tr>
-        <tr><td>Decimals</td><td>6</td></tr>
-        <tr><td>Total Supply</td><td>500,000 JAY</td></tr>
-        <tr><td>Coin Type (BIP44)</td><td>118</td></tr>
-        <tr><td>Address Prefix</td><td>yjay</td></tr>
-        <tr><td>Key Algorithm</td><td>secp256k1</td></tr>
-      </table>
-    </div>
-    <div>
-      <table class="token-table">
-        <tr><th>Fee Setting</th><th>Value</th></tr>
-        <tr><td>Minimum Gas Price</td><td>0.0025 ujay</td></tr>
-        <tr><td>Low Gas Price</td><td>0.0025 ujay</td></tr>
-        <tr><td>Average Gas Price</td><td>0.025 ujay</td></tr>
-        <tr><td>High Gas Price</td><td>0.04 ujay</td></tr>
-        <tr><td>Chain ID</td><td>thejaynetwork-1</td></tr>
-        <tr><td>Binary</td><td>jaynd</td></tr>
-        <tr><td>Home Directory</td><td>$HOME/.jayn</td></tr>
-      </table>
-    </div>
+    <table class="token-table">
+      <tr><th>Property</th><th style="text-align:right">Value</th></tr>
+      <tr><td>Token Name</td><td>Jay Token (JAY)</td></tr>
+      <tr><td>Base Denomination</td><td>ujay</td></tr>
+      <tr><td>Decimals</td><td>6</td></tr>
+      <tr><td>Total Supply</td><td>500,000 JAY</td></tr>
+      <tr><td>Coin Type (BIP44)</td><td>118</td></tr>
+      <tr><td>Address Prefix</td><td>yjay</td></tr>
+      <tr><td>Key Algorithm</td><td>secp256k1</td></tr>
+    </table>
+    <table class="token-table">
+      <tr><th>Network Config</th><th style="text-align:right">Value</th></tr>
+      <tr><td>Chain ID</td><td>thejaynetwork-1</td></tr>
+      <tr><td>Binary</td><td>jaynd</td></tr>
+      <tr><td>Home Directory</td><td>$HOME/.jayn</td></tr>
+      <tr><td>Min Gas Price</td><td>0.0025 ujay</td></tr>
+      <tr><td>Low Gas Price</td><td>0.0025 ujay</td></tr>
+      <tr><td>Average Gas Price</td><td>0.025 ujay</td></tr>
+      <tr><td>High Gas Price</td><td>0.04 ujay</td></tr>
+    </table>
   </div>
-</section>
+</div>
 
 <!-- Endpoints -->
-<section id="endpoints">
+<div id="endpoints" class="section-wrap" style="border-top: 1px solid var(--border);">
   <p class="section-label">Public Endpoints</p>
   <h2 class="section-title">API Access</h2>
   <p class="section-desc">Connect to The Jay Network through our high-availability public RPC and REST API endpoints.</p>
-  <div class="endpoint-grid">
-    <div class="endpoint-row">
-      <span class="endpoint-label">RPC</span>
-      <span class="endpoint-url">http://34.67.101.201:26657</span>
-      <span class="endpoint-status">Online</span>
+  <div class="endpoint-section-grid">
+    <div class="endpoint-group">
+      <div class="endpoint-group-header">jay-node4 &mdash; 34.67.101.201</div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">RPC</span>
+        <span class="endpoint-item-url">http://34.67.101.201:26657</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">REST</span>
+        <span class="endpoint-item-url">http://34.67.101.201:1317</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">gRPC</span>
+        <span class="endpoint-item-url">34.67.101.201:9090</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">P2P</span>
+        <span class="endpoint-item-url">34.67.101.201:26656</span>
+      </div>
     </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">RPC</span>
-      <span class="endpoint-url">http://34.171.203.84:26657</span>
-      <span class="endpoint-status">Online</span>
-    </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">REST API</span>
-      <span class="endpoint-url">http://34.67.101.201:1317</span>
-      <span class="endpoint-status">Online</span>
-    </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">REST API</span>
-      <span class="endpoint-url">http://34.171.203.84:1317</span>
-      <span class="endpoint-status">Online</span>
-    </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">gRPC</span>
-      <span class="endpoint-url">34.67.101.201:9090</span>
-      <span class="endpoint-status">Online</span>
-    </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">gRPC</span>
-      <span class="endpoint-url">34.171.203.84:9090</span>
-      <span class="endpoint-status">Online</span>
-    </div>
-    <div class="endpoint-row">
-      <span class="endpoint-label">P2P</span>
-      <span class="endpoint-url">34.67.101.201:26656 / 34.171.203.84:26656</span>
-      <span class="endpoint-status">Online</span>
+    <div class="endpoint-group">
+      <div class="endpoint-group-header">jay-node5 &mdash; 34.171.203.84</div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">RPC</span>
+        <span class="endpoint-item-url">http://34.171.203.84:26657</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">REST</span>
+        <span class="endpoint-item-url">http://34.171.203.84:1317</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">gRPC</span>
+        <span class="endpoint-item-url">34.171.203.84:9090</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">P2P</span>
+        <span class="endpoint-item-url">34.171.203.84:26656</span>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- Connect -->
-<section id="connect">
+<div id="connect" class="section-wrap" style="border-top: 1px solid var(--border);">
   <p class="section-label">Get Started</p>
   <h2 class="section-title">Connect Your Wallet</h2>
   <p class="section-desc">Add The Jay Network to your Leap wallet in seconds. Works on both desktop and mobile.</p>
 
-  <!-- Desktop: experimentalSuggestChain -->
-  <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">💻 Desktop — Leap Chrome Extension</h3>
-  <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Open any website → F12 → Console → Paste and run:</p>
-
-  <div class="code-block">
-    <div class="code-header">
-      <span>JavaScript — Browser Console</span>
-      <button class="code-copy" onclick="copyCode(this)">Copy</button>
-    </div>
-    <pre id="suggest-chain-code">window.leap.experimentalSuggestChain({
+  <div class="connect-method">
+    <h3>💻 Desktop &mdash; Leap Chrome Extension</h3>
+    <p>Open any website &rarr; F12 &rarr; Console &rarr; Paste and run:</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span>JavaScript &mdash; Browser Console</span>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <pre id="suggest-chain-code">window.leap.experimentalSuggestChain({
   chainId: "thejaynetwork-1",
   chainName: "The Jay Network",
   rpc: "http://34.67.101.201:26657",
@@ -926,39 +669,76 @@
   },
   chainSymbolImageUrl: "https://raw.githubusercontent.com/bbtccore/thejaynetwork/master/chain-registry/thejaynetwork/logo.png",
 });</pre>
+    </div>
   </div>
 
-  <!-- Mobile -->
-  <h3 style="margin-top: 3rem; margin-bottom: 1rem; font-size: 1.1rem;">📱 Mobile — Leap App</h3>
-  <div class="connect-steps">
-    <div class="step-card">
-      <span class="step-num">1</span>
-      <h3>Open Settings</h3>
-      <p>In Leap mobile app, go to <strong>Settings → + Add new chain</strong></p>
-    </div>
-    <div class="step-card">
-      <span class="step-num">2</span>
-      <h3>Enter Chain Details</h3>
-      <p>
-        <strong>Chain ID:</strong> thejaynetwork-1<br>
-        <strong>Chain Name:</strong> The Jay Network<br>
-        <strong>RPC URL:</strong> http://34.67.101.201:26657<br>
-        <strong>REST URL:</strong> http://34.67.101.201:1317<br>
-      </p>
-    </div>
-    <div class="step-card">
-      <span class="step-num">3</span>
-      <h3>Token Configuration</h3>
-      <p>
-        <strong>Address Prefix:</strong> yjay<br>
-        <strong>Native Denom:</strong> ujay<br>
-        <strong>Coin Type:</strong> 118<br>
-        <strong>Decimals:</strong> 6<br>
-        <strong>Display Denom:</strong> JAY
-      </p>
+  <div class="connect-method">
+    <h3>📱 Mobile &mdash; QR Code (Recommended)</h3>
+    <p>Scan this QR code with Leap mobile app's DApp browser to auto-add The Jay Network:</p>
+    <div class="qr-container">
+      <div class="qr-card">
+        <div id="qr-code"></div>
+        <p class="qr-label">Scan with Leap &rarr; DApp Browser</p>
+        <a href="https://bbtccore.github.io/thejaynetwork/add-chain.html" target="_blank" class="qr-link">or open link directly &rarr;</a>
+      </div>
+      <div class="qr-steps">
+        <div class="qr-step">
+          <span class="qr-step-num">1</span>
+          <div>
+            <strong>Open Leap Mobile</strong>
+            <p>Tap the compass icon (🧭) to open the DApp Browser</p>
+          </div>
+        </div>
+        <div class="qr-step">
+          <span class="qr-step-num">2</span>
+          <div>
+            <strong>Scan QR Code</strong>
+            <p>Tap the scan icon in the browser address bar and scan the QR above</p>
+          </div>
+        </div>
+        <div class="qr-step">
+          <span class="qr-step-num">3</span>
+          <div>
+            <strong>Approve</strong>
+            <p>The chain addition popup will appear automatically &mdash; tap Approve</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</section>
+
+  <div class="connect-method">
+    <h3>📱 Mobile &mdash; Manual Entry</h3>
+    <div class="step-grid">
+      <div class="step-card">
+        <span class="step-num">1</span>
+        <h4>Open Settings</h4>
+        <p>In Leap mobile app, go to<br><strong>Settings &rarr; + Add new chain</strong></p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">2</span>
+        <h4>Chain Details</h4>
+        <p>
+          <strong>Chain ID:</strong> thejaynetwork-1<br>
+          <strong>Chain Name:</strong> The Jay Network<br>
+          <strong>RPC:</strong> http://34.67.101.201:26657<br>
+          <strong>REST:</strong> http://34.67.101.201:1317
+        </p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">3</span>
+        <h4>Token Config</h4>
+        <p>
+          <strong>Prefix:</strong> yjay<br>
+          <strong>Denom:</strong> ujay<br>
+          <strong>Coin Type:</strong> 118<br>
+          <strong>Decimals:</strong> 6<br>
+          <strong>Display:</strong> JAY
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Footer -->
 <footer>
@@ -967,25 +747,36 @@
     <a href="http://34.67.101.201:26657" target="_blank">RPC Explorer</a>
     <a href="http://34.67.101.201:1317/cosmos/bank/v1beta1/supply" target="_blank">Token Supply</a>
   </div>
-  <p>© 2026 The Jay Network. Built with Cosmos SDK &amp; CometBFT.</p>
+  <p>&copy; 2026 The Jay Network. Built with Cosmos SDK &amp; CometBFT.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script>
-// Live block height
+// Generate QR code
+window.addEventListener('DOMContentLoaded', () => {
+  const qrEl = document.getElementById('qr-code');
+  if (qrEl && typeof QRCode !== 'undefined') {
+    QRCode.toCanvas(document.createElement('canvas'),
+      'https://bbtccore.github.io/thejaynetwork/add-chain.html',
+      { width: 200, margin: 1, color: { dark: '#0a0e1a', light: '#ffffff' } },
+      (err, canvas) => { if (!err) qrEl.appendChild(canvas); }
+    );
+  }
+});
+
 async function updateBlock() {
   try {
     const res = await fetch('http://34.67.101.201:26657/status');
     const data = await res.json();
-    const h = parseInt(data.result.sync_info.latest_block_height).toLocaleString();
-    document.getElementById('live-block').textContent = h;
+    document.getElementById('live-block').textContent =
+      parseInt(data.result.sync_info.latest_block_height).toLocaleString();
   } catch(e) {
-    document.getElementById('live-block').textContent = '—';
+    document.getElementById('live-block').textContent = '\u2014';
   }
 }
 updateBlock();
 setInterval(updateBlock, 5000);
 
-// Copy code
 function copyCode(btn) {
   const pre = btn.closest('.code-block').querySelector('pre');
   navigator.clipboard.writeText(pre.textContent).then(() => {
@@ -994,16 +785,14 @@ function copyCode(btn) {
   });
 }
 
-// Smooth scroll for nav
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 </script>
 
 </body>
 </html>
-
