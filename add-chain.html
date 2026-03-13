@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add The Jay Network</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0e1a; color: #f0f4ff;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .container {
+    text-align: center; max-width: 400px;
+  }
+  .logo {
+    width: 80px; height: 80px; border-radius: 20px; margin-bottom: 1.5rem;
+    box-shadow: 0 0 40px rgba(58,123,213,0.3);
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+  .status {
+    background: #1a2035; border: 1px solid #1e293b; border-radius: 12px;
+    padding: 1.25rem; margin-bottom: 1.5rem; font-size: 0.9rem;
+  }
+  .status.success { border-color: #10b981; color: #10b981; }
+  .status.error { border-color: #ef4444; color: #ef4444; }
+  .status.loading { border-color: #3a7bd5; color: #5b9bf0; }
+  .btn {
+    display: inline-block; padding: 12px 28px; border-radius: 10px;
+    font-size: 0.95rem; font-weight: 600; text-decoration: none;
+    background: linear-gradient(135deg, #3a7bd5, #6c5ce7); color: #fff;
+    border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(58,123,213,0.4); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(91,155,240,0.3); border-top-color: #5b9bf0;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    vertical-align: middle; margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="https://raw.githubusercontent.com/bbtccore/thejaynetwork/master/chain-registry/thejaynetwork/logo.png" alt="Jay Network" class="logo">
+  <h1>The Jay Network</h1>
+  <p>Add The Jay Network to your Leap wallet automatically.</p>
+  <div class="status loading" id="status"><span class="spinner"></span>Connecting to wallet...</div>
+  <button class="btn" id="addBtn" disabled onclick="addChain()">Adding Chain...</button>
+</div>
+
+<script>
+const chainConfig = {
+  chainId: "thejaynetwork-1",
+  chainName: "The Jay Network",
+  rpc: "http://34.67.101.201:26657",
+  rest: "http://34.67.101.201:1317",
+  bip44: { coinType: 118 },
+  bech32Config: {
+    bech32PrefixAccAddr: "yjay",
+    bech32PrefixAccPub: "yjaypub",
+    bech32PrefixValAddr: "yjayvaloper",
+    bech32PrefixValPub: "yjayvaloperpub",
+    bech32PrefixConsAddr: "yjayvalcons",
+    bech32PrefixConsPub: "yjayvalconspub",
+  },
+  currencies: [{
+    coinDenom: "JAY",
+    coinMinimalDenom: "ujay",
+    coinDecimals: 6,
+    coinImageUrl: "https://raw.githubusercontent.com/bbtccore/thejaynetwork/master/chain-registry/thejaynetwork/logo.png",
+  }],
+  feeCurrencies: [{
+    coinDenom: "JAY",
+    coinMinimalDenom: "ujay",
+    coinDecimals: 6,
+    gasPriceStep: { low: 0.0025, average: 0.025, high: 0.04 },
+  }],
+  stakeCurrency: {
+    coinDenom: "JAY",
+    coinMinimalDenom: "ujay",
+    coinDecimals: 6,
+  },
+  chainSymbolImageUrl: "https://raw.githubusercontent.com/bbtccore/thejaynetwork/master/chain-registry/thejaynetwork/logo.png",
+};
+
+const statusEl = document.getElementById('status');
+const btnEl = document.getElementById('addBtn');
+
+async function addChain() {
+  const wallet = window.leap || window.keplr;
+  if (!wallet) {
+    statusEl.className = 'status error';
+    statusEl.textContent = 'Wallet not found. Please open this page inside Leap or Keplr browser.';
+    return;
+  }
+  try {
+    statusEl.className = 'status loading';
+    statusEl.innerHTML = '<span class="spinner"></span>Requesting chain addition...';
+    btnEl.disabled = true;
+    btnEl.textContent = 'Adding...';
+    await wallet.experimentalSuggestChain(chainConfig);
+    await wallet.enable(chainConfig.chainId);
+    statusEl.className = 'status success';
+    statusEl.textContent = '✓ The Jay Network has been added successfully!';
+    btnEl.textContent = 'Done!';
+  } catch (e) {
+    statusEl.className = 'status error';
+    statusEl.textContent = 'Error: ' + (e.message || 'Request rejected');
+    btnEl.disabled = false;
+    btnEl.textContent = 'Try Again';
+  }
+}
+
+// Auto-trigger on load
+window.addEventListener('load', () => {
+  const wallet = window.leap || window.keplr;
+  if (wallet) {
+    statusEl.className = 'status loading';
+    statusEl.innerHTML = '<span class="spinner"></span>Wallet detected! Adding chain...';
+    setTimeout(addChain, 500);
+  } else {
+    statusEl.className = 'status error';
+    statusEl.textContent = 'No wallet detected. Open this page in Leap\'s DApp browser.';
+    btnEl.disabled = false;
+    btnEl.textContent = 'Retry';
+  }
+});
+</script>
+
+</body>
+</html>
+
