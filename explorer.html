@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jayscan</title>
+<link rel="icon" type="image/png" href="./logo.png">
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
+    --bg-card: #1a2035;
+    --bg-card-hover: #1f2847;
+    --accent: #3a7bd5;
+    --accent-light: #5b9bf0;
+    --accent-glow: rgba(58, 123, 213, 0.3);
+    --text-primary: #f0f4ff;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e293b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --gradient-1: linear-gradient(135deg, #3a7bd5 0%, #6c5ce7 100%);
+    --section-gap: 1.5rem;
+    --mono: 'SF Mono','Fira Code','Cascadia Code',monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ========== NAVIGATION ========== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(10, 14, 26, 0.88);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--text-primary);
+    font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; }
+  .nav-brand span { color: var(--accent-light); font-weight: 600; font-size: 0.85rem; margin-left: 4px; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
+  .nav-cta {
+    background: var(--gradient-1); color: #fff !important;
+    padding: 7px 18px; border-radius: 8px; font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+
+  /* ========== LAYOUT ========== */
+  .page-wrap {
+    max-width: 1200px; margin: 0 auto;
+    padding: 88px 2rem 60px;
+  }
+
+  /* ========== SEARCH BAR ========== */
+  .search-section {
+    margin-bottom: 2rem;
+  }
+  .search-bar {
+    display: flex; gap: 0.5rem;
+  }
+  .search-input {
+    flex: 1; padding: 14px 20px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; color: var(--text-primary);
+    font-size: 0.95rem; font-family: var(--mono);
+    outline: none; transition: border-color 0.2s;
+  }
+  .search-input::placeholder { color: var(--text-muted); font-family: inherit; }
+  .search-input:focus { border-color: var(--accent); }
+  .search-btn {
+    padding: 14px 28px; background: var(--gradient-1); color: #fff;
+    border: none; border-radius: 12px; font-weight: 700;
+    font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .search-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+
+  /* ========== OVERVIEW STATS ========== */
+  .overview-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--section-gap); margin-bottom: 2rem;
+  }
+  .overview-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+    transition: all 0.25s ease;
+  }
+  .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .overview-card .label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem;
+  }
+  .overview-card .value {
+    font-size: 1.5rem; font-weight: 800;
+    background: var(--gradient-1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .overview-card .sub {
+    font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;
+    font-family: var(--mono);
+  }
+
+  /* ========== TABS ========== */
+  .tabs {
+    display: flex; gap: 0; margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    padding: 12px 24px; background: none; border: none;
+    color: var(--text-muted); font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--text-secondary); }
+  .tab-btn.active {
+    color: var(--accent-light);
+    border-bottom-color: var(--accent);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ========== TABLE ========== */
+  .data-table-wrap {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .data-table {
+    width: 100%; border-collapse: collapse;
+  }
+  .data-table th {
+    background: rgba(58,123,213,0.06);
+    padding: 12px 18px; text-align: left;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 12px 18px; border-bottom: 1px solid var(--border);
+    font-size: 0.85rem; vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(58,123,213,0.03); }
+
+  .hash-link {
+    color: var(--accent-light); text-decoration: none;
+    font-family: var(--mono); font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .hash-link:hover { text-decoration: underline; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 100px;
+    font-size: 0.7rem; font-weight: 700;
+  }
+  .badge-success { background: rgba(16,185,129,0.1); color: var(--success); }
+  .badge-error { background: rgba(239,68,68,0.1); color: var(--error); }
+
+  .mono { font-family: var(--mono); font-size: 0.8rem; }
+  .text-muted { color: var(--text-muted); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-right { text-align: right; }
+  .text-center { text-align: center; }
+
+  /* ========== DETAIL PANEL ========== */
+  .detail-panel {
+    display: none;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; margin-bottom: 2rem;
+  }
+  .detail-panel.active { display: block; }
+  .detail-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(58,123,213,0.06);
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-header h3 {
+    font-size: 1rem; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .detail-close {
+    background: var(--bg-card-hover); border: 1px solid var(--border);
+    color: var(--text-secondary); padding: 6px 14px; border-radius: 8px;
+    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+  }
+  .detail-close:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .detail-row {
+    display: flex; padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label {
+    width: 180px; flex-shrink: 0;
+    font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+  .detail-value {
+    flex: 1; font-size: 0.88rem; word-break: break-all;
+    font-family: var(--mono); color: var(--text-primary);
+  }
+  .detail-value a { color: var(--accent-light); text-decoration: none; }
+  .detail-value a:hover { text-decoration: underline; }
+
+  /* ========== PAGINATION ========== */
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.5rem; margin-top: 1.25rem;
+  }
+  .page-btn {
+    padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text-secondary); border-radius: 8px;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .page-btn:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .page-info { font-size: 0.8rem; color: var(--text-muted); padding: 0 0.5rem; }
+
+  /* ========== VALIDATORS ========== */
+  .validator-moniker {
+    font-weight: 700; font-size: 0.88rem;
+  }
+  .validator-bar-wrap {
+    width: 100%; max-width: 120px; height: 6px;
+    background: var(--border); border-radius: 3px; overflow: hidden;
+  }
+  .validator-bar {
+    height: 100%; background: var(--gradient-1); border-radius: 3px;
+  }
+
+  /* ========== LOADING / EMPTY ========== */
+  .loading {
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem; color: var(--text-muted); font-size: 0.9rem;
+  }
+  .spinner {
+    width: 20px; height: 20px; border: 2px solid var(--border);
+    border-top: 2px solid var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin-right: 10px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    text-align: center; padding: 4rem 2rem; color: var(--text-muted);
+  }
+  .empty-state .icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+  .empty-state p { font-size: 0.9rem; }
+
+  /* ========== COPY TOOLTIP ========== */
+  .copy-btn {
+    background: none; border: none; color: var(--text-muted);
+    cursor: pointer; font-size: 0.75rem; padding: 2px 6px;
+    border-radius: 4px; transition: all 0.2s; margin-left: 6px;
+    vertical-align: middle;
+  }
+  .copy-btn:hover { color: var(--accent-light); background: rgba(58,123,213,0.1); }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 1px solid var(--border); padding: 2.5rem 2rem;
+    text-align: center; color: var(--text-muted); font-size: 0.8rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .footer-links {
+    display: flex; justify-content: center; gap: 2rem;
+    margin-bottom: 1rem; flex-wrap: wrap;
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-row { flex-direction: column; gap: 4px; }
+    .detail-label { width: auto; }
+    .page-wrap { padding: 80px 1rem 40px; }
+    .data-table { font-size: 0.8rem; }
+    .data-table th, .data-table td { padding: 10px 12px; }
+  }
+  @media (max-width: 480px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .search-bar { flex-direction: column; }
+    .tabs { overflow-x: auto; }
+    .tab-btn { padding: 10px 16px; font-size: 0.8rem; white-space: nowrap; }
+  }
+
+  /* ========== SCROLLBAR ========== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <img src="./logo.png" alt="Jay Network">
+      <span>Jayscan</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active" onclick="showTab('blocks');return false;">Blocks</a></li>
+      <li><a href="#" onclick="showTab('validators');return false;">Validators</a></li>
+      <li><a href="https://jaynwk.gt.tc">Main Site</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-bar">
+      <input type="text" class="search-input" id="searchInput"
+             placeholder="Search by block height, tx hash, or account address"
+             onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-btn" onclick="doSearch()">Search</button>
+    </div>
+  </div>
+
+  <!-- Overview Stats -->
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="label">Latest Block</div>
+      <div class="value" id="ov-height">&mdash;</div>
+      <div class="sub" id="ov-time">&mdash;</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Chain Status</div>
+      <div class="value" id="ov-chain-status" style="font-size:1.1rem">&mdash;</div>
+      <div class="sub" style="font-size:0.7rem">thejaynetwork-1</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Total Supply</div>
+      <div class="value" id="ov-supply" style="font-size:1.1rem">&mdash;</div>
+      <div class="sub">JAY</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Active Validators</div>
+      <div class="value" id="ov-validators">&mdash;</div>
+      <div class="sub" id="ov-bonded">&mdash;</div>
+    </div>
+  </div>
+
+  <!-- Detail Panel (block / tx / account) -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-header">
+      <h3 id="detailTitle">Detail</h3>
+      <button class="detail-close" onclick="closeDetail()">✕ Close</button>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="blocks" onclick="showTab('blocks')">Recent Blocks</button>
+    <button class="tab-btn" data-tab="validators" onclick="showTab('validators')">Validators</button>
+  </div>
+
+  <!-- Blocks Tab -->
+  <div class="tab-panel active" id="tab-blocks">
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Height</th>
+            <th>Block Hash</th>
+            <th>Proposer</th>
+            <th class="text-center">Txs</th>
+            <th class="text-right">Time</th>
+          </tr>
+        </thead>
+        <tbody id="blocksBody">
+          <tr><td colspan="5"><div class="loading"><div class="spinner"></div>Loading blocks...</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="page-btn" id="btnNewer" onclick="loadNewerBlocks()" disabled>← Newer</button>
+      <span class="page-info" id="blockRange"></span>
+      <button class="page-btn" id="btnOlder" onclick="loadOlderBlocks()">Older →</button>
+    </div>
+  </div>
+
+  <!-- Validators Tab -->
+  <div class="tab-panel" id="tab-validators">
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Validator</th>
+            <th>Operator Address</th>
+            <th class="text-right">Voting Power</th>
+            <th class="text-center">Commission</th>
+            <th class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody id="validatorsBody">
+          <tr><td colspan="6"><div class="loading"><div class="spinner"></div>Loading validators...</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="https://jaynwk.gt.tc">Main Site</a>
+    <a href="https://github.com/bbtccore/thejaynetwork" target="_blank">GitHub</a>
+    <a href="https://www.instagram.com/jayn.wk" target="_blank">Instagram</a>
+  </div>
+  <p>&copy; 2026 Jayscan.</p>
+</footer>
+
+<script>
+// ======== CONFIG ========
+// Auto-detect: if served from node4 with Nginx proxy, use relative paths
+// Otherwise fall back to direct IP (HTTP only — works from http:// pages)
+const BASE = (() => {
+  const host = location.hostname;
+  // If served from our domain (via Nginx reverse proxy on node4)
+  if (host === 'jayscan.duckdns.org' || host === 'jayscan.gt.tc' || host === '34.67.101.201') {
+    const proto = location.protocol; // https: or http:
+    return { rpc: proto + '//' + host + '/rpc', rest: proto + '//' + host + '/api' };
+  }
+  // Local development / file:// fallback
+  return { rpc: 'http://34.67.101.201:26657', rest: 'http://34.67.101.201:1317' };
+})();
+const RPC  = BASE.rpc;
+const REST = BASE.rest;
+const BLOCKS_PER_PAGE = 20;
+
+let latestHeight = 0;
+let currentPageTop = 0;
+let validatorMap = {};  // hex address -> moniker
+
+// ======== HELPERS ========
+function truncHash(hash, n = 8) {
+  if (!hash) return '—';
+  if (hash.length <= n * 2 + 4) return hash;
+  return hash.slice(0, n) + '…' + hash.slice(-n);
+}
+
+function fmtTime(iso) {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString(undefined, {
+      month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+  } catch { return iso; }
+}
+
+function timeAgo(iso) {
+  const sec = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (sec < 60) return sec + 's ago';
+  if (sec < 3600) return Math.floor(sec / 60) + 'm ago';
+  if (sec < 86400) return Math.floor(sec / 3600) + 'h ago';
+  return Math.floor(sec / 86400) + 'd ago';
+}
+
+function fmtJay(ujay) {
+  const n = parseInt(ujay) || 0;
+  return (n / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 });
+}
+
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+async function fetchJSON(url, timeoutMs = 8000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal, mode: 'cors' });
+    clearTimeout(timer);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  } catch (e) {
+    clearTimeout(timer);
+    if (e.name === 'AbortError') throw new Error('Request timeout');
+    throw e;
+  }
+}
+
+// ======== OVERVIEW ========
+async function loadOverview() {
+  try {
+    const status = await fetchJSON(RPC + '/status');
+    const info = status.result;
+    latestHeight = parseInt(info.sync_info.latest_block_height);
+    const time = info.sync_info.latest_block_time;
+
+    document.getElementById('ov-height').textContent = latestHeight.toLocaleString();
+    document.getElementById('ov-time').textContent = fmtTime(time);
+    document.getElementById('ov-chain-status').innerHTML = '<span style="color:var(--success)">● Synced</span>';
+
+    if (currentPageTop === 0) {
+      currentPageTop = latestHeight;
+      loadBlocks();
+    }
+  } catch (e) {
+    document.getElementById('ov-chain-status').innerHTML = '<span style="color:var(--error)">● Offline</span>';
+    // Show connection hint if running from file://
+    if (location.protocol === 'file:') {
+      document.getElementById('ov-chain-status').innerHTML +=
+        '<br><span style="font-size:0.65rem;color:var(--warning)">file:// may block requests. Use a local server or deploy.</span>';
+    }
+  }
+
+  try {
+    const supply = await fetchJSON(REST + '/cosmos/bank/v1beta1/supply');
+    const ujay = (supply.supply || []).find(s => s.denom === 'ujay');
+    const amt = ujay?.amount || '0';
+    document.getElementById('ov-supply').textContent = fmtJay(amt);
+  } catch {}
+
+  try {
+    const vals = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED');
+    const list = vals.validators || [];
+    document.getElementById('ov-validators').textContent = list.length;
+    let totalBonded = 0;
+    list.forEach(v => totalBonded += parseInt(v.tokens || 0));
+    document.getElementById('ov-bonded').textContent = fmtJay(totalBonded) + ' JAY bonded';
+  } catch {}
+}
+
+// ======== BLOCKS ========
+async function loadBlocks() {
+  const tbody = document.getElementById('blocksBody');
+  tbody.innerHTML = '<tr><td colspan="5"><div class="loading"><div class="spinner"></div>Loading blocks...</div></td></tr>';
+
+  const maxH = currentPageTop;
+  const minH = Math.max(1, maxH - BLOCKS_PER_PAGE + 1);
+
+  try {
+    const data = await fetchJSON(RPC + `/blockchain?minHeight=${minH}&maxHeight=${maxH}`);
+    const blocks = (data.result.block_metas || []).sort((a, b) =>
+      parseInt(b.header.height) - parseInt(a.header.height)
+    );
+
+    if (blocks.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">📦</div><p>No blocks found</p></div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = blocks.map(bm => {
+      const h = parseInt(bm.header.height);
+      const hash = bm.block_id.hash;
+      const txCount = parseInt(bm.num_txs || 0);
+      const time = bm.header.time;
+      const proposerHex = bm.header.proposer_address;
+      const moniker = validatorMap[proposerHex] || truncHash(proposerHex, 6);
+
+      return `<tr>
+        <td><a class="hash-link" onclick="viewBlock(${h})">${h.toLocaleString()}</a></td>
+        <td><a class="hash-link" onclick="viewBlock(${h})" title="${hash}">${truncHash(hash, 10)}</a></td>
+        <td class="text-secondary" style="font-size:0.82rem">${moniker}</td>
+        <td class="text-center">${txCount > 0 ? '<span class="badge badge-success">' + txCount + '</span>' : '<span class="text-muted">0</span>'}</td>
+        <td class="text-right text-muted" style="font-size:0.8rem" title="${fmtTime(time)}">${timeAgo(time)}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('blockRange').textContent = `Block ${minH.toLocaleString()} — ${maxH.toLocaleString()}`;
+    document.getElementById('btnNewer').disabled = (maxH >= latestHeight);
+    document.getElementById('btnOlder').disabled = (minH <= 1);
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon">⚠️</div><p>Failed to load blocks: ${e.message}</p></div></td></tr>`;
+  }
+}
+
+function loadOlderBlocks() {
+  currentPageTop = Math.max(1, currentPageTop - BLOCKS_PER_PAGE);
+  loadBlocks();
+}
+function loadNewerBlocks() {
+  currentPageTop = Math.min(latestHeight, currentPageTop + BLOCKS_PER_PAGE);
+  loadBlocks();
+}
+
+// ======== VIEW BLOCK ========
+async function viewBlock(height) {
+  const panel = document.getElementById('detailPanel');
+  const body = document.getElementById('detailBody');
+  panel.classList.add('active');
+  document.getElementById('detailTitle').innerHTML = '📦 Block #' + height.toLocaleString();
+  body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading block...</div>';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const data = await fetchJSON(RPC + `/block?height=${height}`);
+    const block = data.result.block;
+    const header = block.header;
+    const blockId = data.result.block_id;
+    const txs = block.data.txs || [];
+
+    let txRows = '';
+    if (txs.length > 0) {
+      const txHashes = [];
+      for (const txB64 of txs) {
+        const raw = atob(txB64);
+        const bytes = new Uint8Array(raw.length);
+        for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+        const hashBuf = await crypto.subtle.digest('SHA-256', bytes);
+        const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        txHashes.push(hashHex);
+      }
+      txRows = `
+        <div class="detail-row">
+          <div class="detail-label">Transactions</div>
+          <div class="detail-value">
+            ${txHashes.map(h => `<a class="hash-link" onclick="viewTx('${h}')" style="display:block;margin-bottom:4px">${truncHash(h, 16)}</a>`).join('')}
+          </div>
+        </div>`;
+    }
+
+    body.innerHTML = `
+      <div class="detail-row">
+        <div class="detail-label">Height</div>
+        <div class="detail-value">${parseInt(header.height).toLocaleString()}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Block Hash</div>
+        <div class="detail-value">${blockId.hash}<button class="copy-btn" onclick="copyText('${blockId.hash}',this)">📋</button></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Timestamp</div>
+        <div class="detail-value">${fmtTime(header.time)} (${timeAgo(header.time)})</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Proposer</div>
+        <div class="detail-value">${validatorMap[header.proposer_address] || header.proposer_address}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Txs Count</div>
+        <div class="detail-value">${txs.length}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">App Hash</div>
+        <div class="detail-value" style="font-size:0.75rem;color:var(--text-muted)">${header.app_hash || '—'}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Consensus Hash</div>
+        <div class="detail-value" style="font-size:0.75rem;color:var(--text-muted)">${header.consensus_hash || '—'}</div>
+      </div>
+      ${txRows}
+    `;
+  } catch (e) {
+    body.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Failed to load block: ${e.message}</p></div>`;
+  }
+}
+
+// ======== VIEW TX ========
+async function viewTx(hash) {
+  const panel = document.getElementById('detailPanel');
+  const body = document.getElementById('detailBody');
+  panel.classList.add('active');
+  document.getElementById('detailTitle').innerHTML = '🔀 Transaction';
+  body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading transaction...</div>';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const cleanHash = hash.replace(/^0x/i, '').toUpperCase();
+
+  try {
+    const data = await fetchJSON(REST + `/cosmos/tx/v1beta1/txs/${cleanHash}`);
+    const tx = data.tx;
+    const txResp = data.tx_response;
+
+    const msgs = (tx?.body?.messages || []).map(m => {
+      const type = m['@type'] || 'unknown';
+      const shortType = type.split('.').pop();
+      let detail = '';
+      if (m.from_address) detail += `<br>From: <a class="hash-link" onclick="viewAccount('${m.from_address}')">${m.from_address}</a>`;
+      if (m.to_address) detail += `<br>To: <a class="hash-link" onclick="viewAccount('${m.to_address}')">${m.to_address}</a>`;
+      if (m.amount) {
+        const amounts = Array.isArray(m.amount) ? m.amount : [m.amount];
+        amounts.forEach(a => {
+          if (a && a.amount) detail += `<br>Amount: ${fmtJay(a.amount)} ${a.denom === 'ujay' ? 'JAY' : a.denom}`;
+        });
+      }
+      if (m.delegator_address) detail += `<br>Delegator: ${m.delegator_address}`;
+      if (m.validator_address) detail += `<br>Validator: ${m.validator_address}`;
+      return `<div style="margin-bottom:8px"><strong>${shortType}</strong>${detail}</div>`;
+    }).join('');
+
+    const isSuccess = txResp.code === 0 || txResp.code === undefined;
+
+    body.innerHTML = `
+      <div class="detail-row">
+        <div class="detail-label">Tx Hash</div>
+        <div class="detail-value">${txResp.txhash}<button class="copy-btn" onclick="copyText('${txResp.txhash}',this)">📋</button></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Status</div>
+        <div class="detail-value">${isSuccess ? '<span class="badge badge-success">Success</span>' : '<span class="badge badge-error">Failed — code ' + txResp.code + '</span>'}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Height</div>
+        <div class="detail-value"><a class="hash-link" onclick="viewBlock(${txResp.height})">${parseInt(txResp.height).toLocaleString()}</a></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Timestamp</div>
+        <div class="detail-value">${txResp.timestamp ? fmtTime(txResp.timestamp) : '—'}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Gas Used / Wanted</div>
+        <div class="detail-value">${parseInt(txResp.gas_used || 0).toLocaleString()} / ${parseInt(txResp.gas_wanted || 0).toLocaleString()}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Fee</div>
+        <div class="detail-value">${(tx?.auth_info?.fee?.amount || []).map(a => fmtJay(a.amount) + ' ' + (a.denom === 'ujay' ? 'JAY' : a.denom)).join(', ') || '0 JAY'}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Memo</div>
+        <div class="detail-value" style="color:var(--text-secondary)">${tx?.body?.memo || '<span class="text-muted">—</span>'}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Messages (${tx?.body?.messages?.length || 0})</div>
+        <div class="detail-value">${msgs || '<span class="text-muted">None</span>'}</div>
+      </div>
+      ${txResp.raw_log && !isSuccess ? `<div class="detail-row"><div class="detail-label">Raw Log</div><div class="detail-value" style="font-size:0.75rem;color:var(--error);word-break:break-word">${txResp.raw_log}</div></div>` : ''}
+    `;
+  } catch (e) {
+    body.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Transaction not found or failed to load: ${e.message}</p></div>`;
+  }
+}
+
+// ======== VIEW ACCOUNT ========
+async function viewAccount(address) {
+  const panel = document.getElementById('detailPanel');
+  const body = document.getElementById('detailBody');
+  panel.classList.add('active');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Validator operator address — show validator info instead
+  if (address.startsWith('yjayvaloper')) {
+    document.getElementById('detailTitle').innerHTML = '🏛️ Validator';
+    body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading validator...</div>';
+    try {
+      const valData = await fetchJSON(REST + `/cosmos/staking/v1beta1/validators/${address}`);
+      const v = valData.validator;
+      const tokens = parseInt(v.tokens || 0);
+      const commission = (parseFloat(v.commission?.commission_rates?.rate || 0) * 100).toFixed(2);
+      const maxComm = (parseFloat(v.commission?.commission_rates?.max_rate || 0) * 100).toFixed(0);
+      const isBonded = v.status === 'BOND_STATUS_BONDED';
+
+      body.innerHTML = `
+        <div class="detail-row">
+          <div class="detail-label">Moniker</div>
+          <div class="detail-value" style="font-weight:700;font-size:1.1rem">${v.description?.moniker || 'Unknown'}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Operator</div>
+          <div class="detail-value">${address}<button class="copy-btn" onclick="copyText('${address}',this)">📋</button></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Status</div>
+          <div class="detail-value">${isBonded ? '<span class="badge badge-success">Active (Bonded)</span>' : '<span class="badge badge-error">Inactive</span>'}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Voting Power</div>
+          <div class="detail-value">${fmtJay(tokens)} JAY</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Commission</div>
+          <div class="detail-value">${commission}% (max ${maxComm}%)</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Jailed</div>
+          <div class="detail-value">${v.jailed ? '<span class="badge badge-error">Yes</span>' : 'No'}</div>
+        </div>
+        ${v.description?.details ? `<div class="detail-row"><div class="detail-label">Details</div><div class="detail-value" style="color:var(--text-secondary)">${v.description.details}</div></div>` : ''}
+      `;
+    } catch (e) {
+      body.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Failed to load validator: ${e.message}</p></div>`;
+    }
+    return;
+  }
+
+  // Regular account address
+  document.getElementById('detailTitle').innerHTML = '👤 Account';
+  body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading account...</div>';
+
+  try {
+    const balData = await fetchJSON(REST + `/cosmos/bank/v1beta1/balances/${address}`);
+    const balances = balData.balances || [];
+
+    let delegations = [];
+    try {
+      const delData = await fetchJSON(REST + `/cosmos/staking/v1beta1/delegations/${address}`);
+      delegations = delData.delegation_responses || [];
+    } catch {}
+
+    let rewards = [];
+    try {
+      const rewData = await fetchJSON(REST + `/cosmos/distribution/v1beta1/delegators/${address}/rewards`);
+      rewards = rewData.total || [];
+    } catch {}
+
+    const balRows = balances.length > 0
+      ? balances.map(b => `<div>${fmtJay(b.amount)} ${b.denom === 'ujay' ? 'JAY' : b.denom}</div>`).join('')
+      : '<span class="text-muted">No balances</span>';
+
+    const delRows = delegations.length > 0
+      ? delegations.map(d => `<div>${fmtJay(d.balance.amount)} JAY → ${truncHash(d.delegation.validator_address, 12)}</div>`).join('')
+      : '<span class="text-muted">No delegations</span>';
+
+    const rewRows = rewards.length > 0
+      ? rewards.map(r => `<div>${fmtJay(r.amount)} ${r.denom === 'ujay' ? 'JAY' : r.denom}</div>`).join('')
+      : '<span class="text-muted">No rewards</span>';
+
+    body.innerHTML = `
+      <div class="detail-row">
+        <div class="detail-label">Address</div>
+        <div class="detail-value">${address}<button class="copy-btn" onclick="copyText('${address}',this)">📋</button></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Available</div>
+        <div class="detail-value">${balRows}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Delegations</div>
+        <div class="detail-value">${delRows}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Pending Rewards</div>
+        <div class="detail-value">${rewRows}</div>
+      </div>
+    `;
+  } catch (e) {
+    body.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Failed to load account: ${e.message}</p></div>`;
+  }
+}
+
+// ======== VALIDATORS ========
+async function loadValidators() {
+  const tbody = document.getElementById('validatorsBody');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spinner"></div>Loading validators...</div></td></tr>';
+
+  try {
+    const bonded = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100');
+    let allVals = (bonded.validators || []);
+
+    try {
+      const unbonding = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDING&pagination.limit=100');
+      allVals = allVals.concat(unbonding.validators || []);
+    } catch {}
+    try {
+      const unbonded = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDED&pagination.limit=100');
+      allVals = allVals.concat(unbonded.validators || []);
+    } catch {}
+
+    allVals.sort((a, b) => parseInt(b.tokens || 0) - parseInt(a.tokens || 0));
+
+    const maxTokens = allVals.reduce((m, v) => Math.max(m, parseInt(v.tokens || 0)), 1);
+
+    tbody.innerHTML = allVals.map((v, i) => {
+      const tokens = parseInt(v.tokens || 0);
+      const pct = ((tokens / maxTokens) * 100).toFixed(1);
+      const commission = (parseFloat(v.commission?.commission_rates?.rate || 0) * 100).toFixed(1);
+      const isBonded = v.status === 'BOND_STATUS_BONDED';
+      const moniker = v.description?.moniker || 'Unknown';
+      const opAddr = v.operator_address;
+
+      return `<tr>
+        <td class="text-muted">${i + 1}</td>
+        <td><span class="validator-moniker">${moniker}</span></td>
+        <td class="mono" style="font-size:0.75rem"><a class="hash-link" title="${opAddr}" onclick="copyText('${opAddr}',this)">${truncHash(opAddr, 10)}</a></td>
+        <td class="text-right">
+          <div style="font-size:0.85rem;font-weight:600">${fmtJay(tokens)} JAY</div>
+          <div class="validator-bar-wrap" style="margin-left:auto"><div class="validator-bar" style="width:${pct}%"></div></div>
+        </td>
+        <td class="text-center">${commission}%</td>
+        <td class="text-center">${isBonded ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-error">Inactive</span>'}</td>
+      </tr>`;
+    }).join('');
+
+    if (allVals.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div><p>No validators found</p></div></td></tr>';
+    }
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">⚠️</div><p>Failed to load validators: ${e.message}</p></div></td></tr>`;
+  }
+}
+
+// ======== BUILD PROPOSER MAP ========
+async function buildProposerMap() {
+  try {
+    // Get CometBFT validator hex addresses
+    const data = await fetchJSON(RPC + '/validators?per_page=100');
+    const cometVals = data.result.validators || [];
+
+    // Get staking validators for monikers
+    const restVals = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100');
+    const stakingVals = restVals.validators || [];
+
+    // Build pubkey -> moniker map from staking
+    const pubkeyToMoniker = {};
+    for (const v of stakingVals) {
+      if (v.consensus_pubkey?.key) {
+        pubkeyToMoniker[v.consensus_pubkey.key] = v.description?.moniker || 'Unknown';
+      }
+    }
+
+    // CometBFT validators have hex address + pub_key
+    // Map hex address -> moniker via pub_key match
+    for (const cv of cometVals) {
+      const key = cv.pub_key?.value || '';
+      if (key && pubkeyToMoniker[key]) {
+        validatorMap[cv.address] = pubkeyToMoniker[key];
+      } else {
+        validatorMap[cv.address] = truncHash(cv.address, 6);
+      }
+    }
+
+    // Fallback: try REST validatorsets for yjayvalcons addresses
+    try {
+      const vsData = await fetchJSON(REST + '/cosmos/base/tendermint/v1beta1/validatorsets/latest?pagination.limit=100');
+      const vsList = vsData.validators || [];
+      for (const cv of vsList) {
+        const key = cv.pub_key?.key || '';
+        if (key && pubkeyToMoniker[key]) {
+          // Map the yjayvalcons address too
+          if (cv.address) validatorMap[cv.address] = pubkeyToMoniker[key];
+        }
+      }
+    } catch {}
+  } catch (e) {
+    console.warn('buildProposerMap failed:', e.message);
+  }
+}
+
+// ======== TABS ========
+function showTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (a.getAttribute('onclick')?.includes(name)) a.classList.add('active');
+    else a.classList.remove('active');
+  });
+  if (name === 'validators') loadValidators();
+}
+
+// ======== SEARCH ========
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+
+  // Block height
+  if (/^\d+$/.test(q)) {
+    viewBlock(parseInt(q));
+    return;
+  }
+
+  // Tx hash
+  if (/^(0x)?[a-fA-F0-9]{64}$/.test(q)) {
+    viewTx(q.replace(/^0x/i, '').toUpperCase());
+    return;
+  }
+
+  // Validator operator (check before generic yjay)
+  if (q.startsWith('yjayvaloper')) {
+    viewAccount(q);
+    return;
+  }
+
+  // Account address
+  if (q.startsWith('yjay')) {
+    viewAccount(q);
+    return;
+  }
+
+  alert('Invalid search query.\n\nSupported:\n• Block height (number)\n• Tx hash (64 hex chars)\n• Account address (yjay1...)');
+}
+
+// ======== DETAIL CLOSE ========
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('active');
+}
+
+// ======== INIT ========
+async function init() {
+  // Warn if running from file:// protocol
+  if (location.protocol === 'file:') {
+    const warn = document.createElement('div');
+    warn.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(245,158,11,0.15);border-top:1px solid rgba(245,158,11,0.4);padding:10px 20px;text-align:center;font-size:0.8rem;color:#f59e0b;backdrop-filter:blur(10px)';
+    warn.innerHTML = '⚠️ <strong>file://</strong> 프로토콜에서 열렸습니다. 일부 브라우저에서 RPC 요청이 차단될 수 있습니다. → <code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px">python -m http.server 8080</code> 후 <a href="http://localhost:8080/explorer.html" style="color:#5b9bf0">localhost:8080</a>에서 여세요. <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#f59e0b;cursor:pointer;margin-left:10px;font-size:1rem">✕</button>';
+    document.body.appendChild(warn);
+  }
+
+  // Build proposer map first (non-blocking on failure)
+  await buildProposerMap();
+
+  // Load overview and blocks
+  await loadOverview();
+
+  // Auto-refresh every 5 seconds
+  setInterval(async () => {
+    try {
+      const status = await fetchJSON(RPC + '/status');
+      const newH = parseInt(status.result.sync_info.latest_block_height);
+      const time = status.result.sync_info.latest_block_time;
+      if (newH > latestHeight) {
+        latestHeight = newH;
+        document.getElementById('ov-height').textContent = latestHeight.toLocaleString();
+        document.getElementById('ov-time').textContent = fmtTime(time);
+        // Auto-refresh blocks if on latest page
+        if (currentPageTop >= latestHeight - BLOCKS_PER_PAGE) {
+          currentPageTop = latestHeight;
+          loadBlocks();
+        }
+      }
+    } catch {}
+  }, 5000);
+}
+
+init();
+</script>
+
+</body>
+</html>
+
