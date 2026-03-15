@@ -28,12 +28,10 @@ build:
 	@go build $(BUILD_FLAGS) -mod=readonly -o build/jaynd ./cmd/jaynd
 
 build-linux:
-	@echo "--> Building jaynd for Linux amd64..."
-	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w $(ldflags)" -mod=readonly -o build/jaynd-linux-amd64 ./cmd/jaynd
-	@echo "--> Building jaynd for Linux arm64..."
-	@GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w $(ldflags)" -mod=readonly -o build/jaynd-linux-arm64 ./cmd/jaynd
-	@echo "--> Done. Binaries in build/"
-	@ls -la build/jaynd-linux-*
+	@echo "--> Building jaynd for Linux amd64 (with CosmWasm CGO)..."
+	@GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -ldflags="-s -w $(ldflags)" -mod=readonly -tags "netgo" -o build/jaynd-linux-amd64 ./cmd/jaynd
+	@echo "--> Done. Binary in build/"
+	@ls -la build/jaynd-linux-amd64
 
 build-all: build build-linux
 	@echo "--> All binaries built."

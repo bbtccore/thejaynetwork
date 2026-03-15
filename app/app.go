@@ -29,6 +29,7 @@ import (
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/controller/keeper"
 	icahostkeeper "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/host/keeper"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
@@ -95,6 +96,9 @@ type App struct {
 	ICAControllerKeeper icacontrollerkeeper.Keeper
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
+
+	// wasm keeper
+	WasmKeeper wasmkeeper.Keeper
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -187,6 +191,11 @@ func New(
 		panic(err)
 	}
 
+	// register CosmWasm module
+	if err := app.registerWasmModule(appOpts); err != nil {
+		panic(err)
+	}
+
 	/****  Module Options ****/
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
@@ -196,6 +205,9 @@ func New(
 	app.sm = module.NewSimulationManagerFromAppModules(app.ModuleManager.Modules, overrideModules)
 
 	app.sm.RegisterStoreDecoders()
+
+	// Register CosmWasm upgrade handler
+	app.registerUpgradeHandlers()
 
 	// A custom InitChainer sets if extra pre-init-genesis logic is required.
 	// This is necessary for manually registered modules that do not support app wiring.

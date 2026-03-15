@@ -24,6 +24,8 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
+	wasm "github.com/CosmWasm/wasmd/x/wasm"
+
 	"thejaynetwork/app"
 )
 
@@ -58,6 +60,7 @@ func initRootCmd(
 
 // addModuleInitFlags adds more flags to the start command.
 func addModuleInitFlags(startCmd *cobra.Command) {
+	wasm.AddModuleInitFlags(startCmd)
 }
 
 func queryCommand() *cobra.Command {
