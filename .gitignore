@@ -15,3 +15,15 @@ coverage.txt
 coverage.html
 .testnets/
 
+# Sensitive data - NEVER commit
+.deploy-genesis/
+.tmp-*
+keyring-test/
+keyring-file/
+*.key
+*.pem
+priv_validator_key.json
+node_key.json
+*mnemonic*
+*secret*
+*.keyring
