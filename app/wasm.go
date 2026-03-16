@@ -94,9 +94,8 @@ func (app *App) registerWasmModule(appOpts servertypes.AppOptions) error {
 	)
 
 	// Register wasm module
-	if err := app.RegisterModules(
-		wasm.NewAppModule(app.appCodec, &app.WasmKeeper, app.StakingKeeper, app.AuthKeeper, app.BankKeeper, app.MsgServiceRouter(), nil),
-	); err != nil {
+	wasmAppModule := wasm.NewAppModule(app.appCodec, &app.WasmKeeper, app.StakingKeeper, app.AuthKeeper, app.BankKeeper, app.MsgServiceRouter(), nil)
+	if err := app.RegisterModules(wasmAppModule); err != nil {
 		return err
 	}
 

@@ -164,9 +164,11 @@ var (
 						// ibc modules
 						ibcexported.ModuleName,
 						ibctransfertypes.ModuleName,
-						icatypes.ModuleName,
-						// chain modules
-					},
+					icatypes.ModuleName,
+					// wasm module
+					wasmtypes.ModuleName,
+					// chain modules
+				},
 				}),
 			},
 			{
