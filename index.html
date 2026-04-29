@@ -8,19 +8,19 @@
 <link rel="icon" type="image/png" href="./logo.png">
 <style>
   :root {
-    --bg-primary: #0a0e1a;
-    --bg-secondary: #111827;
-    --bg-card: #1a2035;
-    --bg-card-hover: #1f2847;
-    --accent: #3a7bd5;
-    --accent-light: #5b9bf0;
-    --accent-glow: rgba(58, 123, 213, 0.3);
-    --text-primary: #f0f4ff;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --border: #1e293b;
+    --bg-primary: #0B0B1E;
+    --bg-secondary: #141432;
+    --bg-card: #1a1a35;
+    --bg-card-hover: #242450;
+    --accent: #7C3AED;
+    --accent-light: #A78BFA;
+    --accent-glow: rgba(124, 58, 237, 0.3);
+    --text-primary: #ffffff;
+    --text-secondary: #c8c8dc;
+    --text-muted: #8B8BA7;
+    --border: rgba(255,255,255,0.12);
     --success: #10b981;
-    --gradient-1: linear-gradient(135deg, #3a7bd5 0%, #6c5ce7 100%);
+    --gradient-1: linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%);
     --section-gap: 1.5rem;
   }
 
@@ -29,7 +29,8 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
-    background: var(--bg-primary);
+    background: var(--bg-primary) url('./bg.png') no-repeat center center fixed;
+    background-size: cover;
     color: var(--text-primary);
     line-height: 1.7;
     overflow-x: hidden;
@@ -38,7 +39,7 @@
   /* ========== NAVIGATION ========== */
   nav {
     position: fixed; top: 0; width: 100%; z-index: 1000;
-    background: rgba(10, 14, 26, 0.88);
+    background: rgba(11, 11, 30, 0.92);
     backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
   }
@@ -73,8 +74,8 @@
   }
   .hero::before {
     content: ''; position: absolute; inset: -50%;
-    background: radial-gradient(ellipse at 30% 50%, rgba(58,123,213,0.07) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 50%, rgba(108,92,231,0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 30% 50%, rgba(124,58,237,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(167,139,250,0.05) 0%, transparent 50%);
     animation: drift 20s ease-in-out infinite;
   }
   @keyframes drift {
@@ -85,7 +86,7 @@
   .hero-content { position: relative; z-index: 1; max-width: 720px; }
   .hero-logo {
     width: 110px; height: 110px; border-radius: 26px; margin-bottom: 1.75rem;
-    box-shadow: 0 0 50px var(--accent-glow), 0 16px 48px rgba(0,0,0,0.5);
+    box-shadow: 0 0 60px rgba(124,58,237,0.35), 0 16px 48px rgba(0,0,0,0.5);
     animation: float 6s ease-in-out infinite;
   }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
@@ -104,8 +105,7 @@
   .hero h1 {
     font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800;
     letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.25rem;
-    background: linear-gradient(135deg, #f0f4ff 0%, #94a3b8 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    color: #ffffff;
   }
   .hero h1 span {
     background: var(--gradient-1);
@@ -176,7 +176,7 @@
   }
   .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.3); }
   .card-icon {
-    width: 44px; height: 44px; background: rgba(58,123,213,0.1);
+    width: 44px; height: 44px; background: rgba(124,58,237,0.15);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
     font-size: 1.35rem; margin-bottom: 1rem;
   }
@@ -229,7 +229,7 @@
     border-radius: 12px; overflow: hidden;
   }
   .token-table th {
-    background: rgba(58,123,213,0.08); padding: 10px 18px; text-align: left;
+    background: rgba(124,58,237,0.1); padding: 10px 18px; text-align: left;
     font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--text-muted);
   }
@@ -251,7 +251,7 @@
   }
   .endpoint-group-header {
     padding: 10px 18px;
-    background: rgba(58,123,213,0.06); border-bottom: 1px solid var(--border);
+    background: rgba(124,58,237,0.08); border-bottom: 1px solid var(--border);
     font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--accent);
   }
@@ -281,7 +281,7 @@
     color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.75rem;
   }
   .code-block {
-    background: #0d1117; border: 1px solid var(--border);
+    background: #0a0a1a; border: 1px solid var(--border);
     border-radius: 10px; overflow: hidden;
   }
   .code-header {
@@ -299,7 +299,7 @@
   .code-block pre {
     padding: 16px; overflow-x: auto;
     font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
-    font-size: 0.8rem; line-height: 1.75; color: #c9d1d9;
+    font-size: 0.8rem; line-height: 1.75; color: #d4d4e8;
   }
   .step-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
@@ -362,7 +362,7 @@
     border-top: 1px solid var(--border); padding: 2.5rem 2rem;
     text-align: center; color: var(--text-muted); font-size: 0.8rem;
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  footer a { color: var(--accent-light); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
   .footer-links {
     display: flex; justify-content: center; gap: 2rem;
@@ -393,11 +393,49 @@
     .arch-grid { grid-template-columns: 1fr; }
   }
 
+  /* ========== DOCS ========== */
+  .docs-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--section-gap);
+  }
+  .doc-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.75rem; transition: all 0.25s ease;
+  }
+  .doc-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .doc-card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .doc-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .doc-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.5rem; }
+  .doc-card p:last-child { margin-bottom: 0; }
+  .doc-param {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+  }
+  .doc-param:last-child { border-bottom: none; }
+  .doc-param-label { color: var(--text-muted); }
+  .doc-param-value {
+    font-family: 'SF Mono','Fira Code',monospace; color: var(--accent-light); font-weight: 600;
+  }
+  .doc-highlight {
+    background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 8px; padding: 12px 16px; margin-top: 0.75rem;
+  }
+  .doc-highlight p { color: var(--text-primary); font-size: 0.85rem; margin: 0; }
+  .doc-card.full-width { grid-column: 1 / -1; }
+  .doc-formula {
+    background: #0a0a1a; border-radius: 8px; padding: 14px 18px; margin-top: 0.75rem;
+    font-family: 'SF Mono','Fira Code',monospace; font-size: 0.82rem;
+    color: #d4d4e8; line-height: 1.7;
+  }
+  @media (max-width: 768px) {
+    .docs-grid { grid-template-columns: 1fr; }
+  }
+
   /* ========== SCROLLBAR ========== */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg-primary); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 </style>
 </head>
 <body>
@@ -414,6 +452,7 @@
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#tokenomics">Tokenomics</a></li>
       <li><a href="#endpoints">Endpoints</a></li>
+      <li><a href="#docs">Docs</a></li>
       <li><a href="#connect" class="nav-cta">Add Network</a></li>
     </ul>
   </div>
@@ -437,23 +476,6 @@
   </div>
 </section>
 
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stats-grid">
-    
-    <div class="stat-item">
-      <h3>~3s</h3>
-      <p>Block Time</p>
-    </div>
-    
-    <div class="stat-item">
-      <h3>v0.53.6</h3>
-      <p>Cosmos SDK</p>
-    </div>
-    
-   
-  </div>
-</div>
 
 <!-- Technology -->
 <div id="technology" class="section-wrap">
@@ -475,16 +497,6 @@
       <div class="card-icon">🌐</div>
       <h3>IBC v10.4.0</h3>
       <p>Inter-Blockchain Communication protocol enabling trustless cross-chain token transfers and data exchange with any IBC-compatible chain.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🛡️</div>
-      <h3>Defense-in-Depth Security</h3>
-      <p>Multi-layer security: UFW firewall, Fail2ban intrusion detection, SSH hardening, automatic security updates, kernel tuning, and strict file permissions.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📊</div>
-      <h3>Prometheus + Grafana</h3>
-      <p>Real-time monitoring and alerting with Prometheus metrics collection and Grafana dashboards for block production, peer connections, and system health.</p>
     </div>
   </div>
 </div>
@@ -549,7 +561,7 @@
     </table>
     <table class="token-table">
       <tr><th>Network Config</th><th style="text-align:right">Value</th></tr>
-      <tr><td>Chain ID</td><td>thejaynetwork-1</td></tr>
+      <tr><td>Chain ID</td><td>thejaynetwork</td></tr>
       <tr><td>Binary</td><td>jaynd</td></tr>
     
       <tr><td>Min Gas Price</td><td>0.0025 ujay</td></tr>
@@ -557,6 +569,120 @@
       <tr><td>Average Gas Price</td><td>0.025 ujay</td></tr>
       <tr><td>High Gas Price</td><td>0.04 ujay</td></tr>
     </table>
+  </div>
+</div>
+
+<!-- Documentation -->
+<div id="docs" class="section-wrap" style="border-top: 1px solid var(--border);">
+  <p class="section-label">Documentation</p>
+  <h2 class="section-title">How The Jay Network Works</h2>
+  <p class="section-desc">Consensus, rewards, slashing, and governance — everything you need to know about operating and participating in the network.</p>
+  <div class="docs-grid">
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#9878;</div>
+      <h3>Consensus &mdash; CometBFT (Tendermint)</h3>
+      <p>The Jay Network uses CometBFT Byzantine Fault Tolerant consensus. Validators take turns proposing blocks, and a block is finalized when 2/3+ of validators sign a pre-commit. Finality is instant — no confirmations needed.</p>
+      <div class="doc-param"><span class="doc-param-label">Block Time</span><span class="doc-param-value">~5 seconds</span></div>
+      <div class="doc-param"><span class="doc-param-label">Finality</span><span class="doc-param-value">Instant (1 block)</span></div>
+      <div class="doc-param"><span class="doc-param-label">Fault Tolerance</span><span class="doc-param-value">Up to 1/3 offline</span></div>
+      <div class="doc-param"><span class="doc-param-label">Max Validators</span><span class="doc-param-value">100</span></div>
+      <div class="doc-param"><span class="doc-param-label">Validator Key</span><span class="doc-param-value">Ed25519</span></div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#128176;</div>
+      <h3>Staking Rewards</h3>
+      <p>New JAY tokens are minted every block and distributed to validators and their delegators proportional to their stake. Staking secures the network and earns rewards.</p>
+      <div class="doc-param"><span class="doc-param-label">Inflation Rate</span><span class="doc-param-value">2% &ndash; 3% / year</span></div>
+      <div class="doc-param"><span class="doc-param-label">Target Bonded Ratio</span><span class="doc-param-value">67%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Community Tax</span><span class="doc-param-value">2%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Blocks Per Year</span><span class="doc-param-value">6,311,520</span></div>
+      <div class="doc-highlight">
+        <p>&#9432; When the bonded ratio is below 67%, inflation increases (up to 3%) to incentivize staking. When above 67%, inflation decreases (down to 2%).</p>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#9889;</div>
+      <h3>Validator Commission</h3>
+      <p>Validators charge a commission on delegator rewards as compensation for running infrastructure. Commission parameters are set at validator creation and governed by on-chain limits.</p>
+      <div class="doc-param"><span class="doc-param-label">Default Commission</span><span class="doc-param-value">5%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Max Commission</span><span class="doc-param-value">20%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Max Daily Change</span><span class="doc-param-value">1%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Min Commission</span><span class="doc-param-value">0%</span></div>
+      <div class="doc-formula">
+        Delegator Reward = (Stake / Total Bonded) &times; Block Reward &times; (1 - Commission)<br>
+        Validator Reward = Self-Stake Reward + Commission from Delegators
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#128683;</div>
+      <h3>Slashing &amp; Penalties</h3>
+      <p>Validators that misbehave or go offline are penalized through slashing. This protects the network by ensuring validators remain honest and available.</p>
+      <div class="doc-param"><span class="doc-param-label">Downtime Slash</span><span class="doc-param-value">1% of stake</span></div>
+      <div class="doc-param"><span class="doc-param-label">Double-Sign Slash</span><span class="doc-param-value">5% of stake</span></div>
+      <div class="doc-param"><span class="doc-param-label">Signed Blocks Window</span><span class="doc-param-value">100 blocks</span></div>
+      <div class="doc-param"><span class="doc-param-label">Min Uptime Required</span><span class="doc-param-value">50%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Jail Duration (Downtime)</span><span class="doc-param-value">10 minutes</span></div>
+      <div class="doc-highlight">
+        <p>&#9888; Double-signing (equivocation) is the most severe offense. A validator that signs two different blocks at the same height will be slashed 5% and permanently tombstoned.</p>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#127979;</div>
+      <h3>Governance</h3>
+      <p>JAY holders can propose and vote on network upgrades, parameter changes, and community spend proposals. Governance is fully on-chain and transparent.</p>
+      <div class="doc-param"><span class="doc-param-label">Min Deposit</span><span class="doc-param-value">10 JAY</span></div>
+      <div class="doc-param"><span class="doc-param-label">Deposit Period</span><span class="doc-param-value">2 days</span></div>
+      <div class="doc-param"><span class="doc-param-label">Voting Period</span><span class="doc-param-value">2 days</span></div>
+      <div class="doc-param"><span class="doc-param-label">Quorum</span><span class="doc-param-value">33.4%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Pass Threshold</span><span class="doc-param-value">50%</span></div>
+      <div class="doc-param"><span class="doc-param-label">Veto Threshold</span><span class="doc-param-value">33.4%</span></div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-icon">&#128274;</div>
+      <h3>Unbonding &amp; Redelegation</h3>
+      <p>When unstaking, tokens enter an unbonding period during which they earn no rewards and remain slashable. This ensures network stability.</p>
+      <div class="doc-param"><span class="doc-param-label">Unbonding Period</span><span class="doc-param-value">21 days</span></div>
+      <div class="doc-param"><span class="doc-param-label">Max Unbonding Entries</span><span class="doc-param-value">7</span></div>
+      <div class="doc-param"><span class="doc-param-label">Redelegation</span><span class="doc-param-value">Instant (once per pair)</span></div>
+      <div class="doc-highlight">
+        <p>&#9432; Redelegation between validators is instant, but you cannot redelegate the same tokens again until the 21-day period completes.</p>
+      </div>
+    </div>
+
+    <div class="doc-card full-width">
+      <div class="doc-card-icon">&#128640;</div>
+      <h3>Running a Validator Node</h3>
+      <p>Anyone can become a validator on The Jay Network. Here's what you need:</p>
+      <div class="docs-grid" style="margin-top:1rem;">
+        <div>
+          <p><strong style="color:#fff;">Minimum Requirements</strong></p>
+          <div class="doc-param"><span class="doc-param-label">CPU</span><span class="doc-param-value">2 vCPU</span></div>
+          <div class="doc-param"><span class="doc-param-label">RAM</span><span class="doc-param-value">4 GB</span></div>
+          <div class="doc-param"><span class="doc-param-label">Storage</span><span class="doc-param-value">40 GB SSD</span></div>
+          <div class="doc-param"><span class="doc-param-label">OS</span><span class="doc-param-value">Linux (Ubuntu 22+)</span></div>
+          <div class="doc-param"><span class="doc-param-label">Binary</span><span class="doc-param-value">jaynd</span></div>
+        </div>
+        <div>
+          <p><strong style="color:#fff;">Quick Start</strong></p>
+          <div class="doc-formula">
+            # Initialize node<br>
+            jaynd init my-node --chain-id thejaynetwork<br><br>
+            # Copy genesis file<br>
+            cp genesis.json ~/.jayn/config/<br><br>
+            # Set persistent peers in config.toml<br>
+            # Start the node<br>
+            jaynd start
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -622,7 +748,7 @@
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
       <pre id="suggest-chain-code">window.leap.experimentalSuggestChain({
-  chainId: "thejaynetwork-1",
+  chainId: "thejaynetwork",
   chainName: "The Jay Network",
   rpc: "https://jayscan.duckdns.org/rpc",
   rest: "https://jayscan.duckdns.org/api",
@@ -705,7 +831,7 @@
         <span class="step-num">2</span>
         <h4>Chain Details</h4>
         <p>
-          <strong>Chain ID:</strong> thejaynetwork-1<br>
+          <strong>Chain ID:</strong> thejaynetwork<br>
           <strong>Chain Name:</strong> The Jay Network<br>
           <strong>RPC:</strong> http://34.67.101.201:26657<br>
           <strong>REST:</strong> http://34.67.101.201:1317
@@ -737,6 +863,7 @@
 </footer>
 
 <script>
+
 async function updateBlock() {
   try {
     const res = await fetch('http://34.67.101.201:26657/status');
