@@ -26,17 +26,17 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential
+        run: sudo apt-get update && sudo apt-get install -y build-essential jq
 
-      - name: Download wasmvm libraries
+      - name: Download wasmvm library
         run: |
           go mod download github.com/CosmWasm/wasmvm/v3
-          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
+          WASMVM_DIR=$(go list -m -json github.com/CosmWasm/wasmvm/v3 | jq -r '.Dir')/internal/api
           echo "wasmvm dir: ${WASMVM_DIR}"
-          ls -la ${WASMVM_DIR}/ || true
-          curl -sL -o ${WASMVM_DIR}/libwasmvm.x86_64.so \
-            https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.x86_64.so
-          ls -la ${WASMVM_DIR}/libwasmvm*
+          sudo chmod -R +w "${WASMVM_DIR}"
+          curl -L -o "${WASMVM_DIR}/libwasmvm.x86_64.so" \
+            "https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.x86_64.so"
+          ls -la "${WASMVM_DIR}"/libwasmvm*
 
       - name: Build linux/amd64 (CGO + wasm)
         run: |
@@ -48,12 +48,11 @@ jobs:
                    -X github.com/cosmos/cosmos-sdk/version.Commit=${COMMIT}"
           CGO_ENABLED=1 GOOS=linux GOARCH=amd64 \
             go build -ldflags "${LDFLAGS}" -o build/jaynd-linux-amd64 ./cmd/jaynd
-          ldd build/jaynd-linux-amd64 || true
 
-      - name: Bundle shared library
+      - name: Bundle with shared library
         run: |
-          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
-          cp ${WASMVM_DIR}/libwasmvm.x86_64.so build/
+          WASMVM_DIR=$(go list -m -json github.com/CosmWasm/wasmvm/v3 | jq -r '.Dir')/internal/api
+          cp "${WASMVM_DIR}/libwasmvm.x86_64.so" build/
           tar czf build/jaynd-linux-amd64.tar.gz -C build jaynd-linux-amd64 libwasmvm.x86_64.so
 
       - name: Upload artifact
@@ -76,17 +75,17 @@ jobs:
           cache: true
 
       - name: Install cross-compiler
-        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu jq
 
-      - name: Download wasmvm libraries
+      - name: Download wasmvm library
         run: |
           go mod download github.com/CosmWasm/wasmvm/v3
-          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
+          WASMVM_DIR=$(go list -m -json github.com/CosmWasm/wasmvm/v3 | jq -r '.Dir')/internal/api
           echo "wasmvm dir: ${WASMVM_DIR}"
-          ls -la ${WASMVM_DIR}/ || true
-          curl -sL -o ${WASMVM_DIR}/libwasmvm.aarch64.so \
-            https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.aarch64.so
-          ls -la ${WASMVM_DIR}/libwasmvm*
+          sudo chmod -R +w "${WASMVM_DIR}"
+          curl -L -o "${WASMVM_DIR}/libwasmvm.aarch64.so" \
+            "https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.aarch64.so"
+          ls -la "${WASMVM_DIR}"/libwasmvm*
 
       - name: Build linux/arm64 (CGO + wasm)
         run: |
@@ -100,10 +99,10 @@ jobs:
             CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ \
             go build -ldflags "${LDFLAGS}" -o build/jaynd-linux-arm64 ./cmd/jaynd
 
-      - name: Bundle shared library
+      - name: Bundle with shared library
         run: |
-          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
-          cp ${WASMVM_DIR}/libwasmvm.aarch64.so build/
+          WASMVM_DIR=$(go list -m -json github.com/CosmWasm/wasmvm/v3 | jq -r '.Dir')/internal/api
+          cp "${WASMVM_DIR}/libwasmvm.aarch64.so" build/
           tar czf build/jaynd-linux-arm64.tar.gz -C build jaynd-linux-arm64 libwasmvm.aarch64.so
 
       - name: Upload artifact
