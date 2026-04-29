@@ -26,16 +26,16 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential musl-tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential
 
-      - name: Download wasmvm static library
+      - name: Download wasmvm libraries
         run: |
           go mod download github.com/CosmWasm/wasmvm/v3
           WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
-          wget -q https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm_muslc.x86_64.a \
-            -O ${WASMVM_DIR}/libwasmvm_muslc.x86_64.a
-          wget -q https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.x86_64.so \
-            -O ${WASMVM_DIR}/libwasmvm.x86_64.so
+          echo "wasmvm dir: ${WASMVM_DIR}"
+          ls -la ${WASMVM_DIR}/ || true
+          curl -sL -o ${WASMVM_DIR}/libwasmvm.x86_64.so \
+            https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.x86_64.so
           ls -la ${WASMVM_DIR}/libwasmvm*
 
       - name: Build linux/amd64 (CGO + wasm)
@@ -48,12 +48,19 @@ jobs:
                    -X github.com/cosmos/cosmos-sdk/version.Commit=${COMMIT}"
           CGO_ENABLED=1 GOOS=linux GOARCH=amd64 \
             go build -ldflags "${LDFLAGS}" -o build/jaynd-linux-amd64 ./cmd/jaynd
+          ldd build/jaynd-linux-amd64 || true
+
+      - name: Bundle shared library
+        run: |
+          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
+          cp ${WASMVM_DIR}/libwasmvm.x86_64.so build/
+          tar czf build/jaynd-linux-amd64.tar.gz -C build jaynd-linux-amd64 libwasmvm.x86_64.so
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jaynd-linux-amd64
-          path: build/jaynd-linux-amd64
+          path: build/jaynd-linux-amd64.tar.gz
 
   build-linux-arm64:
     runs-on: ubuntu-latest
@@ -71,14 +78,14 @@ jobs:
       - name: Install cross-compiler
         run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
-      - name: Download wasmvm static library
+      - name: Download wasmvm libraries
         run: |
           go mod download github.com/CosmWasm/wasmvm/v3
           WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
-          wget -q https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm_muslc.aarch64.a \
-            -O ${WASMVM_DIR}/libwasmvm_muslc.aarch64.a
-          wget -q https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.aarch64.so \
-            -O ${WASMVM_DIR}/libwasmvm.aarch64.so
+          echo "wasmvm dir: ${WASMVM_DIR}"
+          ls -la ${WASMVM_DIR}/ || true
+          curl -sL -o ${WASMVM_DIR}/libwasmvm.aarch64.so \
+            https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm.aarch64.so
           ls -la ${WASMVM_DIR}/libwasmvm*
 
       - name: Build linux/arm64 (CGO + wasm)
@@ -93,11 +100,17 @@ jobs:
             CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ \
             go build -ldflags "${LDFLAGS}" -o build/jaynd-linux-arm64 ./cmd/jaynd
 
+      - name: Bundle shared library
+        run: |
+          WASMVM_DIR=$(go env GOMODCACHE)/github.com/\!cosm\!wasm/wasmvm/v3@${WASMVM_VERSION}/internal/api
+          cp ${WASMVM_DIR}/libwasmvm.aarch64.so build/
+          tar czf build/jaynd-linux-arm64.tar.gz -C build jaynd-linux-arm64 libwasmvm.aarch64.so
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jaynd-linux-arm64
-          path: build/jaynd-linux-arm64
+          path: build/jaynd-linux-arm64.tar.gz
 
   build-darwin:
     runs-on: macos-latest
@@ -153,8 +166,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/jaynd-linux-amd64
-            build/jaynd-linux-arm64
+            build/jaynd-linux-amd64.tar.gz
+            build/jaynd-linux-arm64.tar.gz
             build/jaynd-darwin-amd64
             build/jaynd-darwin-arm64
             build/checksums.txt
