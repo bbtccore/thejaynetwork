@@ -52,7 +52,7 @@
     text-decoration: none; color: var(--text-primary);
     font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
   }
-  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; }
+  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
   .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
   .nav-links a {
     color: var(--text-secondary); text-decoration: none;
@@ -85,7 +85,7 @@
   }
   .hero-content { position: relative; z-index: 1; max-width: 720px; }
   .hero-logo {
-    width: 110px; height: 110px; border-radius: 26px; margin-bottom: 1.75rem;
+    width: 110px; height: 110px; border-radius: 26px; margin-bottom: 1.75rem; object-fit: cover;
     box-shadow: 0 0 60px rgba(124,58,237,0.35), 0 16px 48px rgba(0,0,0,0.5);
     animation: float 6s ease-in-out infinite;
   }
@@ -185,7 +185,7 @@
 
   /* ========== ARCHITECTURE (5 cols) ========== */
   .arch-grid {
-    display: grid; grid-template-columns: repeat(5, 1fr);
+    display: grid; grid-template-columns: repeat(3, 1fr);
     gap: var(--section-gap);
   }
   .arch-node {
@@ -212,7 +212,7 @@
   }
   .arch-signer {
     margin-top: var(--section-gap);
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--section-gap);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--section-gap);
   }
   .arch-signer .card {
     grid-column: 3; /* center in 5-col grid */
@@ -505,37 +505,25 @@
 <div id="architecture" class="section-wrap" style="border-top: 1px solid var(--border);">
   <p class="section-label">Network Architecture</p>
   <h2 class="section-title">Multi-node mainnet topology</h2>
-  <p class="section-desc">Five specialized nodes deployed with role-based separation for maximum security and reliability.</p>
-  <div class="arch-grid">
+  <p class="section-desc">Three validator nodes deployed across independent servers for maximum decentralization and reliability.</p>
+  <div class="arch-grid" style="grid-template-columns: repeat(3, 1fr);">
     <div class="arch-node">
       <p class="node-role">Validator</p>
-      <p class="node-name">jay-node1</p>
-      <p class="node-ip">Protected</p>
+      <p class="node-name">jay-validator-1</p>
+      <p class="node-ip">152.53.195.5</p>
       <p class="node-status">Producing Blocks</p>
     </div>
     <div class="arch-node">
       <p class="node-role">Validator</p>
-      <p class="node-name">jay-node2</p>
-      <p class="node-ip">Protected</p>
+      <p class="node-name">jay-validator-2</p>
+      <p class="node-ip">152.53.195.105</p>
       <p class="node-status">Producing Blocks</p>
     </div>
     <div class="arch-node">
       <p class="node-role">Validator</p>
-      <p class="node-name">jay-node3</p>
-      <p class="node-ip">Protected</p>
+      <p class="node-name">jay-validator-3</p>
+      <p class="node-ip">152.53.194.128</p>
       <p class="node-status">Producing Blocks</p>
-    </div>
-    <div class="arch-node">
-      <p class="node-role">Sentry / RPC</p>
-      <p class="node-name">jay-node4</p>
-      <p class="node-ip">34.67.101.201</p>
-      <p class="node-status">Serving API</p>
-    </div>
-    <div class="arch-node">
-      <p class="node-role">Sentry / RPC</p>
-      <p class="node-name">jay-node5</p>
-      <p class="node-ip">34.171.203.84</p>
-      <p class="node-status">Serving API</p>
     </div>
   </div>
   <div class="arch-signer">
@@ -691,43 +679,62 @@
   <p class="section-label">Public Endpoints</p>
   <h2 class="section-title">API Access</h2>
   <p class="section-desc">Connect to The Jay Network through our high-availability public RPC and REST API endpoints.</p>
-  <div class="endpoint-section-grid">
+  <div class="endpoint-section-grid" style="grid-template-columns: repeat(3, 1fr);">
     <div class="endpoint-group">
-      <div class="endpoint-group-header">jay-node4</div>
+      <div class="endpoint-group-header">jay-validator-1</div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">RPC</span>
-        <span class="endpoint-item-url">http://34.67.101.201:26657</span>
+        <span class="endpoint-item-url">http://152.53.195.5:26657</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">REST</span>
-        <span class="endpoint-item-url">http://34.67.101.201:1317</span>
+        <span class="endpoint-item-url">http://152.53.195.5:1317</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">gRPC</span>
-        <span class="endpoint-item-url">34.67.101.201:9090</span>
+        <span class="endpoint-item-url">152.53.195.5:9090</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">P2P</span>
-        <span class="endpoint-item-url">34.67.101.201:26656</span>
+        <span class="endpoint-item-url">152.53.195.5:26656</span>
       </div>
     </div>
     <div class="endpoint-group">
-      <div class="endpoint-group-header">jay-node5</div>
+      <div class="endpoint-group-header">jay-validator-2</div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">RPC</span>
-        <span class="endpoint-item-url">http://34.171.203.84:26657</span>
+        <span class="endpoint-item-url">http://152.53.195.105:26657</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">REST</span>
-        <span class="endpoint-item-url">http://34.171.203.84:1317</span>
+        <span class="endpoint-item-url">http://152.53.195.105:1317</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">gRPC</span>
-        <span class="endpoint-item-url">34.171.203.84:9090</span>
+        <span class="endpoint-item-url">152.53.195.105:9090</span>
       </div>
       <div class="endpoint-item">
         <span class="endpoint-item-label">P2P</span>
-        <span class="endpoint-item-url">34.171.203.84:26656</span>
+        <span class="endpoint-item-url">152.53.195.105:26656</span>
+      </div>
+    </div>
+    <div class="endpoint-group">
+      <div class="endpoint-group-header">jay-validator-3</div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">RPC</span>
+        <span class="endpoint-item-url">http://152.53.194.128:26657</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">REST</span>
+        <span class="endpoint-item-url">http://152.53.194.128:1317</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">gRPC</span>
+        <span class="endpoint-item-url">152.53.194.128:9090</span>
+      </div>
+      <div class="endpoint-item">
+        <span class="endpoint-item-label">P2P</span>
+        <span class="endpoint-item-url">152.53.194.128:26656</span>
       </div>
     </div>
   </div>
@@ -750,8 +757,8 @@
       <pre id="suggest-chain-code">window.leap.experimentalSuggestChain({
   chainId: "thejaynetwork",
   chainName: "The Jay Network",
-  rpc: "https://jayscan.duckdns.org/rpc",
-  rest: "https://jayscan.duckdns.org/api",
+  rpc: "https://jayscan.thejaynetwork.com/rpc",
+  rest: "https://jayscan.thejaynetwork.com/api",
   bip44: { coinType: 118 },
   bech32Config: {
     bech32PrefixAccAddr: "yjay",
@@ -778,7 +785,7 @@
     coinMinimalDenom: "ujay",
     coinDecimals: 6,
   },
-  walletUrlForStaking: "https://jayscan.duckdns.org",
+  walletUrlForStaking: "https://wallet.thejaynetwork.com/staking.php",
   chainSymbolImageUrl: "https://raw.githubusercontent.com/bbtccore/thejaynetwork/master/chain-registry/thejaynetwork/logo.png",
 });</pre>
     </div>
@@ -833,8 +840,8 @@
         <p>
           <strong>Chain ID:</strong> thejaynetwork<br>
           <strong>Chain Name:</strong> The Jay Network<br>
-          <strong>RPC:</strong> http://34.67.101.201:26657<br>
-          <strong>REST:</strong> http://34.67.101.201:1317
+          <strong>RPC:</strong> http://152.53.195.5:26657<br>
+          <strong>REST:</strong> http://152.53.195.5:1317
         </p>
       </div>
       <div class="step-card">
@@ -856,7 +863,8 @@
 <footer>
   <div class="footer-links">
     <a href="https://github.com/bbtccore/thejaynetwork" target="_blank">GitHub</a>
-    <a href="http://34.67.101.201:1317/cosmos/bank/v1beta1/supply" target="_blank">Token Supply</a>
+    <a href="https://jayscan.thejaynetwork.com" target="_blank">Explorer</a>
+    <a href="https://wallet.thejaynetwork.com" target="_blank">Wallet</a>
     <a href="https://www.instagram.com/jayn.wk" target="_blank">Instagram</a>
   </div>
   <p>&copy; 2026 The Jay Network.</p>
@@ -866,7 +874,7 @@
 
 async function updateBlock() {
   try {
-    const res = await fetch('http://34.67.101.201:26657/status');
+    const res = await fetch('http://152.53.195.5:26657/status');
     const data = await res.json();
     document.getElementById('live-block').textContent =
       parseInt(data.result.sync_info.latest_block_height).toLocaleString();

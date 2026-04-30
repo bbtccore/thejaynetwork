@@ -7,23 +7,27 @@
 <link rel="icon" type="image/png" href="./logo.png">
 <style>
   :root {
-    --bg-primary: #0a0e1a;
-    --bg-secondary: #111827;
-    --bg-card: #1a2035;
-    --bg-card-hover: #1f2847;
-    --accent: #3a7bd5;
-    --accent-light: #5b9bf0;
-    --accent-glow: rgba(58, 123, 213, 0.3);
-    --text-primary: #f0f4ff;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --border: #1e293b;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --gradient-1: linear-gradient(135deg, #3a7bd5 0%, #6c5ce7 100%);
+    --bg-primary: #09090f;
+    --bg-secondary: #13131d;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: rgba(255,255,255,0.08);
+    --accent: #AB7BFF;
+    --accent-light: #C4A1FF;
+    --accent-dark: #7C3AED;
+    --accent-glow: rgba(171,123,255,0.3);
+    --text-primary: #F5F5FF;
+    --text-secondary: #9898B8;
+    --text-muted: #5C5C7A;
+    --border: rgba(255,255,255,0.06);
+    --success: #34D399;
+    --warning: #FBBF24;
+    --error: #F87171;
+    --gradient-1: linear-gradient(135deg, #7C3AED 0%, #AB7BFF 50%, #C4A1FF 100%);
+    --gradient-2: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
     --section-gap: 1.5rem;
     --mono: 'SF Mono','Fira Code','Cascadia Code',monospace;
+    --r: 20px;
+    --rs: 14px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,8 +44,9 @@
   /* ========== NAVIGATION ========== */
   nav {
     position: fixed; top: 0; width: 100%; z-index: 1000;
-    background: rgba(10, 14, 26, 0.88);
-    backdrop-filter: blur(24px);
+    background: rgba(9, 9, 15, 0.88);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid var(--border);
   }
   .nav-inner {
@@ -53,8 +58,8 @@
     text-decoration: none; color: var(--text-primary);
     font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
   }
-  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; }
-  .nav-brand span { color: var(--accent-light); font-weight: 600; font-size: 0.85rem; margin-left: 4px; }
+  .nav-brand img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+  .nav-brand span { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; font-size: 0.85rem; margin-left: 4px; }
   .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
   .nav-links a {
     color: var(--text-secondary); text-decoration: none;
@@ -62,11 +67,12 @@
   }
   .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
   .nav-cta {
-    background: var(--gradient-1); color: #fff !important;
-    padding: 7px 18px; border-radius: 8px; font-weight: 600;
+    background: var(--gradient-2); color: #fff !important;
+    padding: 7px 18px; border-radius: 10px; font-weight: 600;
     transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.25);
   }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
 
   /* ========== LAYOUT ========== */
   .page-wrap {
@@ -83,20 +89,21 @@
   }
   .search-input {
     flex: 1; padding: 14px 20px;
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 12px; color: var(--text-primary);
+    background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--rs); color: var(--text-primary);
     font-size: 0.95rem; font-family: var(--mono);
-    outline: none; transition: border-color 0.2s;
+    outline: none; transition: all 0.25s;
   }
   .search-input::placeholder { color: var(--text-muted); font-family: inherit; }
-  .search-input:focus { border-color: var(--accent); }
+  .search-input:focus { border-color: var(--accent); background: rgba(171,123,255,0.04); box-shadow: 0 0 0 3px rgba(171,123,255,0.08); }
   .search-btn {
-    padding: 14px 28px; background: var(--gradient-1); color: #fff;
-    border: none; border-radius: 12px; font-weight: 700;
+    padding: 14px 28px; background: var(--gradient-2); color: #fff;
+    border: none; border-radius: var(--rs); font-weight: 700;
     font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
-    white-space: nowrap;
+    white-space: nowrap; box-shadow: 0 4px 16px rgba(124,58,237,0.25);
   }
-  .search-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+  .search-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-glow); }
+  .search-btn:active { transform: scale(0.98); }
 
   /* ========== OVERVIEW STATS ========== */
   .overview-grid {
@@ -104,11 +111,11 @@
     gap: var(--section-gap); margin-bottom: 2rem;
   }
   .overview-card {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--rs); padding: 1.25rem 1.5rem;
     transition: all 0.25s ease;
   }
-  .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .overview-card:hover { border-color: rgba(171,123,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); background: rgba(255,255,255,0.05); }
   .overview-card .label {
     font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem;
@@ -126,7 +133,7 @@
   /* ========== TABS ========== */
   .tabs {
     display: flex; gap: 0; margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .tab-btn {
     padding: 12px 24px; background: none; border: none;
@@ -137,32 +144,32 @@
   .tab-btn:hover { color: var(--text-secondary); }
   .tab-btn.active {
     color: var(--accent-light);
-    border-bottom-color: var(--accent);
+    border-bottom-color: var(--accent-dark);
   }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
   /* ========== TABLE ========== */
   .data-table-wrap {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--rs); overflow: hidden;
   }
   .data-table {
     width: 100%; border-collapse: collapse;
   }
   .data-table th {
-    background: rgba(58,123,213,0.06);
+    background: rgba(124,58,237,0.06);
     padding: 12px 18px; text-align: left;
     font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .data-table td {
-    padding: 12px 18px; border-bottom: 1px solid var(--border);
+    padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04);
     font-size: 0.85rem; vertical-align: middle;
   }
   .data-table tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: rgba(58,123,213,0.03); }
+  .data-table tr:hover td { background: rgba(124,58,237,0.03); }
 
   .hash-link {
     color: var(--accent-light); text-decoration: none;
@@ -176,8 +183,8 @@
     padding: 3px 10px; border-radius: 100px;
     font-size: 0.7rem; font-weight: 700;
   }
-  .badge-success { background: rgba(16,185,129,0.1); color: var(--success); }
-  .badge-error { background: rgba(239,68,68,0.1); color: var(--error); }
+  .badge-success { background: rgba(52,211,153,0.1); color: var(--success); }
+  .badge-error { background: rgba(248,113,113,0.1); color: var(--error); }
 
   .mono { font-family: var(--mono); font-size: 0.8rem; }
   .text-muted { color: var(--text-muted); }
@@ -188,29 +195,29 @@
   /* ========== DETAIL PANEL ========== */
   .detail-panel {
     display: none;
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 14px; overflow: hidden; margin-bottom: 2rem;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--r); overflow: hidden; margin-bottom: 2rem;
   }
   .detail-panel.active { display: block; }
   .detail-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 24px;
-    background: rgba(58,123,213,0.06);
-    border-bottom: 1px solid var(--border);
+    background: rgba(124,58,237,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .detail-header h3 {
     font-size: 1rem; font-weight: 700;
     display: flex; align-items: center; gap: 10px;
   }
   .detail-close {
-    background: var(--bg-card-hover); border: 1px solid var(--border);
-    color: var(--text-secondary); padding: 6px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-secondary); padding: 6px 14px; border-radius: 10px;
     font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
   }
-  .detail-close:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .detail-close:hover { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
   .detail-row {
     display: flex; padding: 14px 24px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
   }
   .detail-row:last-child { border-bottom: none; }
   .detail-label {
@@ -232,11 +239,11 @@
     gap: 0.5rem; margin-top: 1.25rem;
   }
   .page-btn {
-    padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border);
-    color: var(--text-secondary); border-radius: 8px;
+    padding: 8px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-secondary); border-radius: 10px;
     font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
-  .page-btn:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .page-btn:hover:not(:disabled) { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
   .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .page-info { font-size: 0.8rem; color: var(--text-muted); padding: 0 0.5rem; }
 
@@ -246,10 +253,10 @@
   }
   .validator-bar-wrap {
     width: 100%; max-width: 120px; height: 6px;
-    background: var(--border); border-radius: 3px; overflow: hidden;
+    background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;
   }
   .validator-bar {
-    height: 100%; background: var(--gradient-1); border-radius: 3px;
+    height: 100%; background: var(--gradient-2); border-radius: 3px;
   }
 
   /* ========== LOADING / EMPTY ========== */
@@ -258,9 +265,9 @@
     padding: 3rem; color: var(--text-muted); font-size: 0.9rem;
   }
   .spinner {
-    width: 20px; height: 20px; border: 2px solid var(--border);
-    border-top: 2px solid var(--accent); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin-right: 10px;
+    width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.06);
+    border-top: 2.5px solid var(--accent); border-radius: 50%;
+    animation: spin 0.7s linear infinite; margin-right: 10px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -277,15 +284,15 @@
     border-radius: 4px; transition: all 0.2s; margin-left: 6px;
     vertical-align: middle;
   }
-  .copy-btn:hover { color: var(--accent-light); background: rgba(58,123,213,0.1); }
+  .copy-btn:hover { color: var(--accent-light); background: rgba(171,123,255,0.1); }
 
   /* ========== FOOTER ========== */
   footer {
-    border-top: 1px solid var(--border); padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06); padding: 2.5rem 2rem;
     text-align: center; color: var(--text-muted); font-size: 0.8rem;
   }
   footer a { color: var(--accent); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  footer a:hover { text-decoration: underline; color: var(--accent-light); }
   .footer-links {
     display: flex; justify-content: center; gap: 2rem;
     margin-bottom: 1rem; flex-wrap: wrap;
@@ -314,8 +321,8 @@
   /* ========== SCROLLBAR ========== */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg-primary); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 </style>
 </head>
 <body>
@@ -330,7 +337,7 @@
     <ul class="nav-links">
       <li><a href="#" class="active" onclick="showTab('blocks');return false;">Blocks</a></li>
       <li><a href="#" onclick="showTab('validators');return false;">Validators</a></li>
-      <li><a href="https://jaynwk.gt.tc">Main Site</a></li>
+      <li><a href="https://thejaynetwork.com">Main Site</a></li>
     </ul>
   </div>
 </nav>
@@ -357,7 +364,7 @@
     <div class="overview-card">
       <div class="label">Chain Status</div>
       <div class="value" id="ov-chain-status" style="font-size:1.1rem">&mdash;</div>
-      <div class="sub" style="font-size:0.7rem">thejaynetwork-1</div>
+      <div class="sub" style="font-size:0.7rem">thejaynetwork</div>
     </div>
     <div class="overview-card">
       <div class="label">Total Supply</div>
@@ -437,7 +444,7 @@
 <!-- Footer -->
 <footer>
   <div class="footer-links">
-    <a href="https://jaynwk.gt.tc">Main Site</a>
+    <a href="https://thejaynetwork.com">Main Site</a>
     <a href="https://github.com/bbtccore/thejaynetwork" target="_blank">GitHub</a>
     <a href="https://www.instagram.com/jayn.wk" target="_blank">Instagram</a>
   </div>
@@ -446,20 +453,19 @@
 
 <script>
 // ======== CONFIG ========
-// Auto-detect: if served from node4 with Nginx proxy, use relative paths
-// Otherwise fall back to direct IP (HTTP only — works from http:// pages)
-const BASE = (() => {
-  const host = location.hostname;
-  // If served from our domain (via Nginx reverse proxy on node4)
-  if (host === 'jayscan.duckdns.org' || host === 'jayscan.gt.tc' || host === '34.67.101.201') {
-    const proto = location.protocol; // https: or http:
-    return { rpc: proto + '//' + host + '/rpc', rest: proto + '//' + host + '/api' };
-  }
-  // Local development / file:// fallback
-  return { rpc: 'http://34.67.101.201:26657', rest: 'http://34.67.101.201:1317' };
-})();
-const RPC  = BASE.rpc;
-const REST = BASE.rest;
+const USE_PROXY = location.protocol === 'https:';
+const PROXY_BASE = 'proxy.php';
+function proxyUrl(type, path) {
+  if (USE_PROXY) return PROXY_BASE + '?t=' + type + '&p=' + encodeURIComponent(path);
+  const nodes = [
+    { rpc: 'http://152.53.195.5:26657', rest: 'http://152.53.195.5:1317' },
+    { rpc: 'http://152.53.195.105:26657', rest: 'http://152.53.195.105:1317' },
+    { rpc: 'http://152.53.194.128:26657', rest: 'http://152.53.194.128:1317' },
+  ];
+  return nodes[0][type] + path;
+}
+const RPC  = path => proxyUrl('rpc', path);
+const REST = path => proxyUrl('rest', path);
 const BLOCKS_PER_PAGE = 20;
 
 let latestHeight = 0;
@@ -504,7 +510,7 @@ function copyText(text, btn) {
   });
 }
 
-async function fetchJSON(url, timeoutMs = 8000) {
+async function fetchJSON(url, timeoutMs = 15000) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
@@ -522,7 +528,7 @@ async function fetchJSON(url, timeoutMs = 8000) {
 // ======== OVERVIEW ========
 async function loadOverview() {
   try {
-    const status = await fetchJSON(RPC + '/status');
+    const status = await fetchJSON(RPC('/status'));
     const info = status.result;
     latestHeight = parseInt(info.sync_info.latest_block_height);
     const time = info.sync_info.latest_block_time;
@@ -545,14 +551,14 @@ async function loadOverview() {
   }
 
   try {
-    const supply = await fetchJSON(REST + '/cosmos/bank/v1beta1/supply');
+    const supply = await fetchJSON(REST('/cosmos/bank/v1beta1/supply'));
     const ujay = (supply.supply || []).find(s => s.denom === 'ujay');
     const amt = ujay?.amount || '0';
     document.getElementById('ov-supply').textContent = fmtJay(amt);
   } catch {}
 
   try {
-    const vals = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED');
+    const vals = await fetchJSON(REST('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED'));
     const list = vals.validators || [];
     document.getElementById('ov-validators').textContent = list.length;
     let totalBonded = 0;
@@ -570,7 +576,7 @@ async function loadBlocks() {
   const minH = Math.max(1, maxH - BLOCKS_PER_PAGE + 1);
 
   try {
-    const data = await fetchJSON(RPC + `/blockchain?minHeight=${minH}&maxHeight=${maxH}`);
+    const data = await fetchJSON(RPC(`/blockchain?minHeight=${minH}&maxHeight=${maxH}`));
     const blocks = (data.result.block_metas || []).sort((a, b) =>
       parseInt(b.header.height) - parseInt(a.header.height)
     );
@@ -624,7 +630,7 @@ async function viewBlock(height) {
   panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   try {
-    const data = await fetchJSON(RPC + `/block?height=${height}`);
+    const data = await fetchJSON(RPC(`/block?height=${height}`));
     const block = data.result.block;
     const header = block.header;
     const blockId = data.result.block_id;
@@ -698,7 +704,7 @@ async function viewTx(hash) {
   const cleanHash = hash.replace(/^0x/i, '').toUpperCase();
 
   try {
-    const data = await fetchJSON(REST + `/cosmos/tx/v1beta1/txs/${cleanHash}`);
+    const data = await fetchJSON(REST(`/cosmos/tx/v1beta1/txs/${cleanHash}`));
     const tx = data.tx;
     const txResp = data.tx_response;
 
@@ -773,7 +779,7 @@ async function viewAccount(address) {
     document.getElementById('detailTitle').innerHTML = '🏛️ Validator';
     body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading validator...</div>';
     try {
-      const valData = await fetchJSON(REST + `/cosmos/staking/v1beta1/validators/${address}`);
+      const valData = await fetchJSON(REST(`/cosmos/staking/v1beta1/validators/${address}`));
       const v = valData.validator;
       const tokens = parseInt(v.tokens || 0);
       const commission = (parseFloat(v.commission?.commission_rates?.rate || 0) * 100).toFixed(2);
@@ -818,18 +824,18 @@ async function viewAccount(address) {
   body.innerHTML = '<div class="loading"><div class="spinner"></div>Loading account...</div>';
 
   try {
-    const balData = await fetchJSON(REST + `/cosmos/bank/v1beta1/balances/${address}`);
+    const balData = await fetchJSON(REST(`/cosmos/bank/v1beta1/balances/${address}`));
     const balances = balData.balances || [];
 
     let delegations = [];
     try {
-      const delData = await fetchJSON(REST + `/cosmos/staking/v1beta1/delegations/${address}`);
+      const delData = await fetchJSON(REST(`/cosmos/staking/v1beta1/delegations/${address}`));
       delegations = delData.delegation_responses || [];
     } catch {}
 
     let rewards = [];
     try {
-      const rewData = await fetchJSON(REST + `/cosmos/distribution/v1beta1/delegators/${address}/rewards`);
+      const rewData = await fetchJSON(REST(`/cosmos/distribution/v1beta1/delegators/${address}/rewards`));
       rewards = rewData.total || [];
     } catch {}
 
@@ -874,15 +880,15 @@ async function loadValidators() {
   tbody.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spinner"></div>Loading validators...</div></td></tr>';
 
   try {
-    const bonded = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100');
+    const bonded = await fetchJSON(REST('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100'));
     let allVals = (bonded.validators || []);
 
     try {
-      const unbonding = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDING&pagination.limit=100');
+      const unbonding = await fetchJSON(REST('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDING&pagination.limit=100'));
       allVals = allVals.concat(unbonding.validators || []);
     } catch {}
     try {
-      const unbonded = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDED&pagination.limit=100');
+      const unbonded = await fetchJSON(REST('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDED&pagination.limit=100'));
       allVals = allVals.concat(unbonded.validators || []);
     } catch {}
 
@@ -923,11 +929,11 @@ async function loadValidators() {
 async function buildProposerMap() {
   try {
     // Get CometBFT validator hex addresses
-    const data = await fetchJSON(RPC + '/validators?per_page=100');
+    const data = await fetchJSON(RPC('/validators?per_page=100'));
     const cometVals = data.result.validators || [];
 
     // Get staking validators for monikers
-    const restVals = await fetchJSON(REST + '/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100');
+    const restVals = await fetchJSON(REST('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=100'));
     const stakingVals = restVals.validators || [];
 
     // Build pubkey -> moniker map from staking
@@ -951,7 +957,7 @@ async function buildProposerMap() {
 
     // Fallback: try REST validatorsets for yjayvalcons addresses
     try {
-      const vsData = await fetchJSON(REST + '/cosmos/base/tendermint/v1beta1/validatorsets/latest?pagination.limit=100');
+      const vsData = await fetchJSON(REST('/cosmos/base/tendermint/v1beta1/validatorsets/latest?pagination.limit=100'));
       const vsList = vsData.validators || [];
       for (const cv of vsList) {
         const key = cv.pub_key?.key || '';
@@ -1024,8 +1030,8 @@ async function init() {
     document.body.appendChild(warn);
   }
 
-  // Build proposer map first (non-blocking on failure)
-  await buildProposerMap();
+  // Build proposer map in background (don't block page load)
+  buildProposerMap();
 
   // Load overview and blocks
   await loadOverview();
@@ -1033,7 +1039,7 @@ async function init() {
   // Auto-refresh every 5 seconds
   setInterval(async () => {
     try {
-      const status = await fetchJSON(RPC + '/status');
+      const status = await fetchJSON(RPC('/status'));
       const newH = parseInt(status.result.sync_info.latest_block_height);
       const time = status.result.sync_info.latest_block_time;
       if (newH > latestHeight) {
